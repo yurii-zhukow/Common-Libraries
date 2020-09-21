@@ -1,0 +1,8 @@
+D:\~ Common Libraries\YZ.Helpers\bin\Debug\net5.0\YZ.Helpers.deps.json
+D:\~ Common Libraries\YZ.Helpers\bin\Debug\net5.0\YZ.Helpers.dll
+D:\~ Common Libraries\YZ.Helpers\bin\Debug\net5.0\YZ.Helpers.pdb
+D:\~ Common Libraries\YZ.Helpers\obj\Debug\net5.0\YZ.Helpers.AssemblyInfoInputs.cache
+D:\~ Common Libraries\YZ.Helpers\obj\Debug\net5.0\YZ.Helpers.AssemblyInfo.cs
+D:\~ Common Libraries\YZ.Helpers\obj\Debug\net5.0\YZ.Helpers.csproj.CoreCompileInputs.cache
+D:\~ Common Libraries\YZ.Helpers\obj\Debug\net5.0\YZ.Helpers.dll
+D:\~ Common Libraries\YZ.Helpers\obj\Debug\net5.0\YZ.Helpers.pdb

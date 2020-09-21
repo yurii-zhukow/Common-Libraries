@@ -1,0 +1,9 @@
+D:\~ Common Libraries\YZ.Helpers.EFCore\bin\Release\netcoreapp3.1\YZ.Helpers.EFCore.deps.json
+D:\~ Common Libraries\YZ.Helpers.EFCore\bin\Release\netcoreapp3.1\YZ.Helpers.EFCore.dll
+D:\~ Common Libraries\YZ.Helpers.EFCore\bin\Release\netcoreapp3.1\YZ.Helpers.EFCore.pdb
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Release\netcoreapp3.1\YZ.Helpers.EFCore.AssemblyInfoInputs.cache
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Release\netcoreapp3.1\YZ.Helpers.EFCore.AssemblyInfo.cs
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Release\netcoreapp3.1\YZ.Helpers.EFCore.csproj.CoreCompileInputs.cache
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Release\netcoreapp3.1\YZ.Helpers.EFCore.dll
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Release\netcoreapp3.1\YZ.Helpers.EFCore.pdb
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Release\netcoreapp3.1\YZ.Helpers.EFCore.csprojAssemblyReference.cache

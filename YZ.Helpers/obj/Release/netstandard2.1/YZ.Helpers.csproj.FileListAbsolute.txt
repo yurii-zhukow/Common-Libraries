@@ -1,0 +1,8 @@
+D:\~ Common Libraries\YZ.Helpers\bin\Release\netstandard2.1\YZ.Helpers.deps.json
+D:\~ Common Libraries\YZ.Helpers\bin\Release\netstandard2.1\YZ.Helpers.dll
+D:\~ Common Libraries\YZ.Helpers\bin\Release\netstandard2.1\YZ.Helpers.pdb
+D:\~ Common Libraries\YZ.Helpers\obj\Release\netstandard2.1\YZ.Helpers.AssemblyInfoInputs.cache
+D:\~ Common Libraries\YZ.Helpers\obj\Release\netstandard2.1\YZ.Helpers.AssemblyInfo.cs
+D:\~ Common Libraries\YZ.Helpers\obj\Release\netstandard2.1\YZ.Helpers.dll
+D:\~ Common Libraries\YZ.Helpers\obj\Release\netstandard2.1\YZ.Helpers.pdb
+D:\~ Common Libraries\YZ.Helpers\obj\Release\netstandard2.1\YZ.Helpers.csprojAssemblyReference.cache
