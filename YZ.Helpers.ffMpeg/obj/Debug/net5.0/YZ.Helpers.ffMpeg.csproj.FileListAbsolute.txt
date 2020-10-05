@@ -14,3 +14,4 @@ D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.Assem
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.csproj.CoreCompileInputs.cache
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.dll
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.pdb
+D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.csprojAssemblyReference.cache

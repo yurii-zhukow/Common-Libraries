@@ -7,7 +7,7 @@ namespace YZ {
     public static partial class Helpers {
         public static string ToString<T>(this ICollection<T> arr, string separator) => !arr.Any() ? "" : string.Join(separator, arr.Select(e => e.ToString()).ToArray());
         public static string ToString<T>(this IEnumerable<T> arr, string separator) => !arr.Any() ? "" : string.Join(separator, arr.Select(e => e.ToString()).ToArray());
-        public static string ToString<T>(this IEnumerable<T> arr, string separator, Func<T, string> convert) => !arr.Any() ? "" : string.Join(separator, arr.Select(convert).ToArray());
+        public static string ToString<T>(this IEnumerable<T> arr, string separator, Func<T, object> convert) => !arr.Any() ? "" : string.Join(separator, arr.Select(convert).ToArray());
         public static string ToString<T>(this IEnumerable<T> arr, string separator, string openTag, string closeTag) => !arr.Any() ? "" : string.Join(separator, arr.Select(e => $"{openTag}{e}{closeTag}").ToArray());
         public static string ToString(this IEnumerable<byte> arr, string separator = "", string format = "x2") => !arr.Any() ? "" : string.Join(separator, arr.Select(e => e.ToString(format)).ToArray());
         public static string ToBase64String(this IEnumerable<byte> arr) => !arr.Any() ? "" : System.Convert.ToBase64String(arr.ToArray());

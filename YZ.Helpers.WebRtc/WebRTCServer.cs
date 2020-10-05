@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace YZ.WebRtc {
         public WebRTCServer(string url, string key, X509Certificate2 cert) {
             server = new WebSocketServer($"{url}/{key}") {
                 Certificate = cert,
-                //EnabledSslProtocols=System.Security.Authentication.SslProtocols.None
+                EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Ssl3 | SslProtocols.Tls11 | SslProtocols.Tls,
                 RestartAfterListenError=true,
             };
             server.Start(socket => {

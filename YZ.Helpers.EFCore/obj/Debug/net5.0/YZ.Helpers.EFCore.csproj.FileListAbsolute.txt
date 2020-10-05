@@ -6,3 +6,4 @@ D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Debug\net5.0\YZ.Helpers.EFCore.Assem
 D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Debug\net5.0\YZ.Helpers.EFCore.csproj.CoreCompileInputs.cache
 D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Debug\net5.0\YZ.Helpers.EFCore.dll
 D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Debug\net5.0\YZ.Helpers.EFCore.pdb
+D:\~ Common Libraries\YZ.Helpers.EFCore\obj\Debug\net5.0\YZ.Helpers.EFCore.csprojAssemblyReference.cache

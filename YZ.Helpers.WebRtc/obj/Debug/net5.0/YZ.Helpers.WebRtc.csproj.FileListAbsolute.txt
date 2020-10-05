@@ -7,10 +7,10 @@ D:\~ Common Libraries\YZ.Helpers.WebRtc\bin\Debug\net5.0\vcruntime140.dll
 D:\~ Common Libraries\YZ.Helpers.WebRtc\bin\Debug\net5.0\YZ.Helpers.WebRtc.deps.json
 D:\~ Common Libraries\YZ.Helpers.WebRtc\bin\Debug\net5.0\YZ.Helpers.WebRtc.dll
 D:\~ Common Libraries\YZ.Helpers.WebRtc\bin\Debug\net5.0\YZ.Helpers.WebRtc.pdb
-D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.csprojAssemblyReference.cache
 D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.AssemblyInfoInputs.cache
 D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.AssemblyInfo.cs
 D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.csproj.CoreCompileInputs.cache
 D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.csproj.CopyComplete
 D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.dll
 D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.pdb
+D:\~ Common Libraries\YZ.Helpers.WebRtc\obj\Debug\net5.0\YZ.Helpers.WebRtc.csprojAssemblyReference.cache
