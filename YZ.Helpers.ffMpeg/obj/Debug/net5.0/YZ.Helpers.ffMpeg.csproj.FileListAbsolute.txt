@@ -6,12 +6,11 @@ D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\SDK\ffMpeg\avutil-56.dl
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\SDK\ffMpeg\postproc-55.dll
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\SDK\ffMpeg\swresample-3.dll
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\SDK\ffMpeg\swscale-5.dll
-D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\YZ.Helpers.ffMpeg.deps.json
-D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\YZ.Helpers.ffMpeg.dll
-D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\YZ.Helpers.ffMpeg.pdb
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.AssemblyInfoInputs.cache
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.AssemblyInfo.cs
 D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.csproj.CoreCompileInputs.cache
-D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.dll
-D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.pdb
-D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.ffMpeg.csprojAssemblyReference.cache
+D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\YZ.Helpers.EFCore.deps.json
+D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\YZ.Helpers.EFCore.dll
+D:\~ Common Libraries\YZ.Helpers.ffMpeg\bin\Debug\net5.0\YZ.Helpers.EFCore.pdb
+D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.EFCore.dll
+D:\~ Common Libraries\YZ.Helpers.ffMpeg\obj\Debug\net5.0\YZ.Helpers.EFCore.pdb

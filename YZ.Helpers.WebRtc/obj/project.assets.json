@@ -208,7 +208,7 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "D:\\~ Common Libraries\\YZ.Helpers.WebRtc\\YZ.Helpers.WebRtc.csproj",
-      "projectName": "YZ.Helpers.WebRtc",
+      "projectName": "YZ.Helpers.ffMpeg",
       "projectPath": "D:\\~ Common Libraries\\YZ.Helpers.WebRtc\\YZ.Helpers.WebRtc.csproj",
       "packagesPath": "C:\\Users\\YZ\\.nuget\\packages\\",
       "outputPath": "D:\\~ Common Libraries\\YZ.Helpers.WebRtc\\obj\\",

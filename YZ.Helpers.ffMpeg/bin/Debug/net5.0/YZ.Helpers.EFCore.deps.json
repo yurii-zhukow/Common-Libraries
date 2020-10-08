@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "YZ.Helpers.ffMpeg/1.0.0": {
+      "YZ.Helpers.EFCore/1.0.0": {
         "runtime": {
-          "YZ.Helpers.ffMpeg.dll": {}
+          "YZ.Helpers.EFCore.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "YZ.Helpers.ffMpeg/1.0.0": {
+    "YZ.Helpers.EFCore/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

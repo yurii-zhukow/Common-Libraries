@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "D:\\~ Common Libraries\\YZ.Helpers\\YZ.Helpers.csproj",
-        "projectName": "YZ.Helpers",
+        "projectName": "YZ.Helpers.Common",
         "projectPath": "D:\\~ Common Libraries\\YZ.Helpers\\YZ.Helpers.csproj",
         "packagesPath": "C:\\Users\\YZ\\.nuget\\packages\\",
         "outputPath": "D:\\~ Common Libraries\\YZ.Helpers\\obj\\",
@@ -77,31 +77,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[5.0.0-preview.6.20312.15, 5.0.0-preview.6.20312.15]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[5.0.0-preview.6.20305.6, 5.0.0-preview.6.20305.6]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[5.0.0-preview.6.20308.1, 5.0.0-preview.6.20308.1]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100-preview.6.20318.15\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }

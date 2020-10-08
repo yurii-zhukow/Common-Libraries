@@ -2,9 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+    <RootNamespace>YZ.EFCore</RootNamespace>
+    <AssemblyName>YZ.Helpers.WebRTC</AssemblyName>
+    <LangVersion>latest</LangVersion>
 
+    <PackageId>YZ.Helpers.ffMpeg</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Yurii Zhukow</Authors>
+    <Company>YZ Works</Company>
+
+    <Title>YZ WebRTC Helpers</Title>
+    <PackageIcon>..\icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
+
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="SDK\WebRtc.NET\**" />
     <Compile Remove="~SDK\**" />

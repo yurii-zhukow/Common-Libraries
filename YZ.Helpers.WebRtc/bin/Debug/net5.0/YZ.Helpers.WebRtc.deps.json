@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "YZ.Helpers.WebRtc/1.0.0": {
+      "YZ.Helpers.WebRTC/1.0.0": {
         "dependencies": {
           "Fleck": "1.1.0",
           "LitJson": "0.16.0",
@@ -14,7 +14,7 @@
           "WebRtc.NET": "0.0.0.0"
         },
         "runtime": {
-          "YZ.Helpers.WebRtc.dll": {}
+          "YZ.Helpers.WebRTC.dll": {}
         }
       },
       "Fleck/1.1.0": {
@@ -90,7 +90,7 @@
     }
   },
   "libraries": {
-    "YZ.Helpers.WebRtc/1.0.0": {
+    "YZ.Helpers.WebRTC/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

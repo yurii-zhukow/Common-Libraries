@@ -1,15 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+    <RootNamespace>YZ.EFCore</RootNamespace>
+    <AssemblyName>YZ.Helpers.EFCore</AssemblyName>
+    <LangVersion>latest</LangVersion>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+    <PackageId>YZ.Helpers.ffMpeg</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Yurii Zhukow</Authors>
+    <Company>YZ Works</Company>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Title>YZ ffMpeg Helpers</Title>
+    <PackageIcon>..\icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
+
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
   </PropertyGroup>
 
   <ItemGroup>
