@@ -1,2 +1,3 @@
-### YZ Helpers EFCore
+# YZ.Helpers.EFCore
+
 This package contains extensions for EFCore.
