@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 
   <PropertyGroup>
@@ -7,13 +7,26 @@
     <AssemblyName>YZ.Helpers.EFCore</AssemblyName>
     <LangVersion>latest</LangVersion>
 
-    <PackageId>YZ.Helpers.ffMpeg</PackageId>
+    <PackageId>YZ.Helpers.FFMpeg</PackageId>
     <Version>1.0.0</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
 
-    <Title>YZ ffMpeg Helpers</Title>
-    <PackageIcon>..\icon.png</PackageIcon>
+    <Title>YZ FFMpeg Helpers</Title>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
+    <Description>
+      This package contains extensions and helpers for FFMpeg tools.
+      Based on ffmpeg.org binaries and FFMpeg.Autogen
+    </Description>
+    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.ffMpeg/Readme.md</ReadMeMdUrl>
+    <IncludeSource>true</IncludeSource>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+
+    <Title>YZ FFMpeg Helpers</Title>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -21,6 +34,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+
+
     <None Update="SDK\ffMpeg\avcodec-58.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,19 +6,36 @@
     <AssemblyName>YZ.Helpers.WebRTC</AssemblyName>
     <LangVersion>latest</LangVersion>
 
-    <PackageId>YZ.Helpers.ffMpeg</PackageId>
+    <PackageId>YZ.Helpers.WebRTC</PackageId>
     <Version>1.0.0</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
 
     <Title>YZ WebRTC Helpers</Title>
-    <PackageIcon>..\icon.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
+    <Title>YZ WebRTC Helpers</Title>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
+    <Description>
+      This package contains Helpers for WebRTC.
+      BasedOn WebRtc.NET
+    </Description>
+    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.WebRtc/Readme.md</ReadMeMdUrl>
+    <IncludeSource>true</IncludeSource>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+
   </PropertyGroup>
   <ItemGroup>
+
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+
+
     <Compile Remove="SDK\WebRtc.NET\**" />
     <Compile Remove="~SDK\**" />
     <EmbeddedResource Remove="SDK\WebRtc.NET\**" />

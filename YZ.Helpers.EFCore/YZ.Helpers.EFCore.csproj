@@ -12,13 +12,21 @@
     <Company>YZ Works</Company>
 
     <Title>YZ EFCore Helpers</Title>
-    <PackageIcon>..\icon.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
+    <Description>This package contains mostly used EFCore Helpers elements.</Description>
+    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.EFCore/Readme.md</ReadMeMdUrl>
+    <IncludeSource>true</IncludeSource>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
 
 
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />

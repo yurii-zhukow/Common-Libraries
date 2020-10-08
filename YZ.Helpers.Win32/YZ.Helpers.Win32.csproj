@@ -2,10 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+
+    <PackageId>YZ.Helpers.Win32</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Yurii Zhukow</Authors>
+    <Company>YZ Works</Company>
+
+    <Title>YZ Helpers for Win32</Title>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
+    <Description>This package contains Win32 related Helpers.</Description>
+    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.Win32/Readme.md</ReadMeMdUrl>
+    <IncludeSource>true</IncludeSource>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0-preview2.19523.17" />
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+    <PackageReference Include="Microsoft.Win32.Registry"/>
   </ItemGroup>
 
 </Project>
