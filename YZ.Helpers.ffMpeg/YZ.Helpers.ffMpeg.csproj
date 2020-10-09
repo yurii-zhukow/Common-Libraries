@@ -24,11 +24,6 @@
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
-
-    <Title>YZ FFMpeg Helpers</Title>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
-
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
   </PropertyGroup>
