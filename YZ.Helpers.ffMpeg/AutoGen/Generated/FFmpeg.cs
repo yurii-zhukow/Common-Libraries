@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using SDK.ffMpeg;
+using SDK.FFMpeg;
 
 
 namespace FFmpeg.AutoGen

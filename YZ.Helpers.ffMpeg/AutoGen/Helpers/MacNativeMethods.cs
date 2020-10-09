@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SDK.ffMpeg {
+namespace SDK.FFMpeg {
     public static class MacNativeMethods
     {
         public const int RTLD_NOW = 0x002;

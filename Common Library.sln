@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers", "YZ.Helpers\YZ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers.EFCore", "YZ.Helpers.EFCore\YZ.Helpers.EFCore.csproj", "{197F6EBE-0D03-4802-B236-C37E741898D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers.ffMpeg", "YZ.Helpers.ffMpeg\YZ.Helpers.ffMpeg.csproj", "{D8AB396F-A57B-4E8C-9C83-3752C24D8E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers.FFMpeg", "YZ.Helpers.ffMpeg\YZ.Helpers.FFMpeg.csproj", "{D8AB396F-A57B-4E8C-9C83-3752C24D8E9A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers.WebRtc", "YZ.Helpers.WebRtc\YZ.Helpers.WebRtc.csproj", "{00EA9740-C4D0-4191-A606-D3622A52C667}"
 EndProject

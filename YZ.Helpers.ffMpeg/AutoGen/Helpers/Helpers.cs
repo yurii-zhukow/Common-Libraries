@@ -8,7 +8,7 @@ using System.Text;
 using FFmpeg.AutoGen;
 
 
-namespace SDK.ffMpeg {
+namespace SDK.FFMpeg {
 
     public sealed unsafe class H264VideoStreamEncoder : IDisposable {
         private readonly Size _frameSize;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SDK.ffMpeg {
+namespace SDK.FFMpeg {
     public static class WindowsNativeMethods {
         private const string Kernel32 = "kernel32";
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SDK.ffMpeg {
+namespace SDK.FFMpeg {
     /// <summary>
     ///     Supports loading functions from native libraries. Provides a more flexible alternative to P/Invoke.
     /// </summary>

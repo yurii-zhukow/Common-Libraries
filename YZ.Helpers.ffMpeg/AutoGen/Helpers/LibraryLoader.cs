@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace SDK.ffMpeg {
+namespace SDK.FFMpeg {
     public delegate PlatformID GetPlatformId();
 
     public delegate string GetNativeLibraryName(string libraryName, int version);
