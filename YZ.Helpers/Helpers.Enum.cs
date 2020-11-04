@@ -126,7 +126,8 @@ namespace YZ {
 
 
         public static string GetDescription<TEnumType>(this TEnumType value) where TEnumType : Enum, IConvertible => GetEnumAttr<TEnumType, DescriptionAttribute>(value, false)?.Description ?? "";
-        public static TEnum SafeCast<TEnum>(this string value, TEnum deflt = default) where TEnum : struct => Enum.IsDefined(typeof(TEnum), value) ? Enum.Parse<TEnum>(value) : deflt;
+
+        public static TEnum SafeCast<TEnum>(this string value, TEnum deflt = default, bool ignoreCase = false) where TEnum : struct => Enum.TryParse<TEnum>(value, ignoreCase, out var res) ? res : deflt;
         public static TEnum SafeCast<TEnum>(this int value, TEnum deflt = default) where TEnum : Enum => Enum.IsDefined(typeof(TEnum), value) ? (TEnum)(object)value : deflt;
         public static TEnum SafeCast<TEnum>(this uint value, TEnum deflt = default) where TEnum : Enum => Enum.IsDefined(typeof(TEnum), value) ? (TEnum)(object)value : deflt;
         public static TEnum SafeCast<TEnum>(this byte value, TEnum deflt = default) where TEnum : Enum => SafeCast<TEnum>((int)value, deflt);
