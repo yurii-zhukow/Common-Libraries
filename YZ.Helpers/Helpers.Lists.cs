@@ -43,6 +43,7 @@ namespace YZ {
 
         public static IEnumerable<IEnumerable<T>> SplitBy<T>(this IEnumerable<T> src, int size) {
             src = src.ToList();
+            if (size == 0 || size >= src.Count()) return new[] { src };
             var res = new List<IEnumerable<T>>();
             while (src.Any()) {
                 res.Add(src.Take(size).ToArray());
@@ -154,9 +155,9 @@ namespace YZ {
 
 
     public class FolderTree<T> {
-        public class Folder { 
-            public List<Folder> Folders{ get; } = new List<Folder>();
-            }
+        public class Folder {
+            public List<Folder> Folders { get; } = new List<Folder>();
+        }
         public class Item { }
 
         public Folder Root { get; } = new Folder();

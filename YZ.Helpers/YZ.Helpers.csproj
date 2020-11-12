@@ -8,7 +8,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <PackageId>YZ.Helpers</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
 
@@ -16,7 +16,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
     <Description>This package contains mostly used Helpers elements.</Description>
-    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <Copyright>YZ Works © 2020</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0-preview.6.20305.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Console" Version="4.3.1" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.5" />
   </ItemGroup>
 
 
