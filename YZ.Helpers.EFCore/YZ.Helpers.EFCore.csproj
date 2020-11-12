@@ -15,7 +15,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
     <Description>This package contains mostly used EFCore Helpers elements.</Description>
-    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <Copyright>YZ Works © 2020</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.EFCore/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -27,9 +27,9 @@
   <ItemGroup>
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
 
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
     <PackageReference Include="Remotion.Linq" Version="2.2.0" />
   </ItemGroup>
 
