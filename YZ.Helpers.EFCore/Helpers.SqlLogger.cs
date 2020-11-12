@@ -59,23 +59,23 @@ namespace YZ.EFCore {
                 return result;
             }
 
-            public override Task<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData data, DbDataReader result, CancellationToken cancellation) {
+            public override ValueTask<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData data, DbDataReader result, CancellationToken cancellation) {
                 WriteLine(data);
                 //return new ValueTask<DbDataReader>(result);
-                return Task.FromResult(result);
+                return new ValueTask<DbDataReader>(result);
 
             }
 
-            public override Task<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData data, object result, CancellationToken cancellation) {
+            public override ValueTask<object> ScalarExecutedAsync(DbCommand command, CommandExecutedEventData data, object result, CancellationToken cancellation) {
                 WriteLine(data);
                 //return new ValueTask<object>(result);
-                return Task.FromResult(result);
+                return new ValueTask<object>(result);
             }
 
-            public override Task<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData data, int result, CancellationToken cancellation) {
+            public override ValueTask<int> NonQueryExecutedAsync(DbCommand command, CommandExecutedEventData data, int result, CancellationToken cancellation) {
                 WriteLine(data);
                 //return new ValueTask<int>(result);
-                return Task.FromResult(result);
+                return new ValueTask<int>(result);
             }
         }
 

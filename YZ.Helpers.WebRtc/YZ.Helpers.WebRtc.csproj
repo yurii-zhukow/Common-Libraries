@@ -7,7 +7,7 @@
     <LangVersion>latest</LangVersion>
 
     <PackageId>YZ.Helpers.WebRTC</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.5</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
 
@@ -24,7 +24,7 @@
       This package contains Helpers for WebRTC.
       BasedOn WebRtc.NET
     </Description>
-    <Copyright>YZ Works &#xA9; 2020</Copyright>
+    <Copyright>YZ Works © 2020</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.WebRtc/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -47,7 +47,7 @@
   <ItemGroup>
     <PackageReference Include="Fleck" Version="1.1.0" />
     <PackageReference Include="LitJson" Version="0.16.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
