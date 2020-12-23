@@ -12,8 +12,20 @@ namespace YZ {
     public abstract partial class ProgramBase {
 
         static ProgramBase() {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+
+            if (CultureInfo.InvariantCulture.Clone() is CultureInfo ci) {
+                ci.NumberFormat.NumberDecimalSeparator = ".";
+                ci.DateTimeFormat.ShortDatePattern = "dd.MM.yyyy";
+                ci.DateTimeFormat.LongDatePattern = "dd.MM.yyyy";
+                CultureInfo.CurrentCulture = ci;
+                CultureInfo.CurrentUICulture = ci;
+                CultureInfo.DefaultThreadCurrentCulture = ci;
+                CultureInfo.DefaultThreadCurrentUICulture = ci;
+                Thread.CurrentThread.CurrentCulture = ci;
+                Thread.CurrentThread.CurrentUICulture = ci;
+            }
+
+
         }
 
 
