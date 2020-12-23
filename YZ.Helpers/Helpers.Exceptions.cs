@@ -58,7 +58,7 @@ namespace YZ {
             return null;
         }
 
-        
+
         public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn) => src.SafeCall(fn, default, out _);
         public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, TResult dflt) => src.SafeCall(fn, dflt, out _);
         public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, TResult dflt, out Exception ex) {
@@ -77,6 +77,32 @@ namespace YZ {
                 return true;
             } catch (Exception e) {
                 ex = e; return false;
+            }
+        }
+
+        public static bool SafeCall(this Action fn) {
+            try {
+                fn();
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        public static TResult SafeCall<TResult>(this Func<TResult> fn, TResult @default = default) {
+            try {
+                return fn();
+            } catch {
+                return @default;
+            }
+        }
+        public static TResult SafeCall<TResult>(this Func<TResult> fn, out Exception ex, TResult @default = default) {
+            try {
+                ex = null;
+                return fn();
+            } catch (Exception e) {
+                ex = e;
+                return @default;
             }
         }
 
