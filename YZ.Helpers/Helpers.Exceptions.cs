@@ -88,6 +88,15 @@ namespace YZ {
                 return false;
             }
         }
+        public static bool SafeCall(this Action fn, out Exception ex) {
+            try {
+                ex = null;
+                fn();
+                return true;
+            } catch (Exception e) {
+                ex = e; return false;
+            }
+        }
 
         public static TResult SafeCall<TResult>(this Func<TResult> fn, TResult @default = default) {
             try {
