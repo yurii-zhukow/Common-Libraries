@@ -7,7 +7,7 @@
     <LangVersion>latest</LangVersion>
 
     <PackageId>YZ.Helpers.EFCore</PackageId>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
 
@@ -28,9 +28,9 @@
   <ItemGroup>
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
 
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.1" />
     <PackageReference Include="Remotion.Linq" Version="2.2.0" />
   </ItemGroup>
 
