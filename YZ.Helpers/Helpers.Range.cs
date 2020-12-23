@@ -288,6 +288,28 @@ namespace YZ {
         protected override DateTime Succ(DateTime value) => value.AddTicks(1);
         protected override DateTime Pred(DateTime value) => value.AddTicks(-1);
 
+        public DateRange Expand(TimeSpan margin) => new DateRange(Start.Add(-margin), Stop.Add(margin));
+
+        public bool Equals(DateRange b, TimeSpan epsilon) {
+            var e = Math.Abs(epsilon.TotalSeconds);
+            var d1 = Math.Abs((this.Start - b.Start).TotalSeconds);
+            var d2 = Math.Abs((this.Stop - b.Stop).TotalSeconds);
+            return d1 <= e && d2 <= e;
+        }
+
+        public IEnumerable<DateRange> SplitByDay() {
+            if (this.Start.Date == this.Stop.Date) return new[] { this };
+            var n = (int)((this.Stop.Date - this.Start.Date).TotalDays);
+            var res = new DateRange[n + 1];
+            res[0] = new DateRange(this.Start, this.Start.Date.AddDays(1).AddTicks(-1));
+            res[n] = new DateRange(this.Stop.Date, this.Stop);
+            var d0 = this.Start.Date;
+            for (int i = 1; i < n; i++) {
+                res[i] = new DateRange(d0.AddDays(i), d0.AddDays(i + 1).AddTicks(-1));
+            }
+            return res;
+        }
+
 
         public IEnumerable<DateRange> SplitByHour() {
             if (Start.EndOfHour() == Stop.EndOfHour()) return new[] { this };

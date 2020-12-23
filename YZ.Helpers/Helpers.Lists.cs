@@ -14,6 +14,12 @@ namespace YZ {
         public static string ToBase64String(this byte[] arr) => !arr.Any() ? "" : System.Convert.ToBase64String(arr);
         public static string ToString<TValue>(this Dictionary<string, TValue> arr, string separator, string kvSeparator) => string.Join(separator, arr.Select(kv => $"{kv.Key}{kvSeparator}{kv.Value}"));
 
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> src, Action<T> fn) {
+            foreach (var t in src) fn(t);
+            return src;
+        }
+
+
         public static T[] ToArray<T>(this IEnumerable<T> src, int size, Func<T, int> index) {
             var res = Enumerable.Repeat(Activator.CreateInstance<T>(), size).ToArray();
             src.Where(c => index(c) >= 0 && index(c) < size).ToList().ForEach(c => res[index(c)] = c);
@@ -55,6 +61,21 @@ namespace YZ {
         public static T[] Generate<T>(this int count, Func<int, T> generator) {
             var res = new T[count];
             for (int i = 0; i < res.Length; i++) res[i] = generator(i);
+            return res;
+        }
+
+        private static Random rnd = new Random();
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> src) {
+            int n = src.Count();
+            var res = src.ToList();
+
+            while (n > 1) {
+                n--;
+                int k = rnd.Next(n + 1);
+                var t = res[k];
+                res[k] = res[n];
+                res[n] = t;
+            }
             return res;
         }
 

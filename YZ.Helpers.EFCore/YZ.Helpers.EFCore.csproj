@@ -19,6 +19,7 @@
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.EFCore/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Platforms>AnyCPU;x64</Platforms>
 
 
 
