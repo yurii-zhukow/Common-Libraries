@@ -125,7 +125,7 @@ namespace YZ {
         public static bool Is<T>(this T value, params T[] allowed) where T : Enum => allowed.Contains(value);
 
 
-        public static string GetDescription<TEnum>(this TEnum value, GetDescriptionMode mode = GetDescriptionMode.Full) {
+        public static string GetEnumDescription<TEnum>(this TEnum value, GetDescriptionMode mode = GetDescriptionMode.Full) where TEnum:Enum {
             var brief = mode.HasFlag(GetDescriptionMode.Brief);
             var type = typeof(TEnum);
             var name = Enum.GetName(type, value);
@@ -133,8 +133,8 @@ namespace YZ {
             var field = type.GetField(name);
             if (field == null) return name;
             var attr = Attribute.GetCustomAttribute(field, brief ? typeof(BriefDescriptionAttribute) : typeof(DescriptionAttribute), false);
-            if (attr == null) return brief ? GetDescription(value, GetDescriptionMode.Full) : "";
-            if (brief && attr is BriefDescriptionAttribute ba) return ba.BriefDescription ?? GetDescription(value, GetDescriptionMode.Full);
+            if (attr == null) return brief ? GetEnumDescription(value, GetDescriptionMode.Full) : "";
+            if (brief && attr is BriefDescriptionAttribute ba) return ba.BriefDescription ?? GetEnumDescription(value, GetDescriptionMode.Full);
             if (attr is DescriptionAttribute da) return da.Description ?? "";
             return "";
         }
