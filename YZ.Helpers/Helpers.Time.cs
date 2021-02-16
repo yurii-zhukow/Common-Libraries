@@ -16,33 +16,45 @@ namespace YZ {
         private const long TICKS_TO_SECONDS_DIVIDER = 10000 * 1000;
         private const long TICKS_TO_MINUTES_DIVIDER = TICKS_TO_SECONDS_DIVIDER * 60;
         public static readonly DateTime Year2020Start = new DateTime(2020, 01, 01);
+        public static readonly DateTime Year1970Start = new DateTime(1970, 01, 01);
         public static readonly long Year2020StartSecondId = Year2020Start.Ticks / TICKS_TO_SECONDS_DIVIDER;
         public static readonly long Year2020StartMinuteId = Year2020Start.Ticks / TICKS_TO_MINUTES_DIVIDER;
 
+
         /// <summary>
-        /// COnvert DateTime to number of minutes since mindinght 2019-01-01
+        /// Convert number of seconds since mindinght 2019-01-01
+        /// </summary>
+        /// <param name="v">total seconds from 1 Jan 1970</param>
+        /// <returns>Absolute DateTime</returns>
+
+        public static DateTime FromJan1970(this long seconds) => Year1970Start.AddSeconds(seconds);
+        public static long FromJan1970(this DateTime d) => (long)((d - Year1970Start).TotalSeconds);
+
+
+        /// <summary>
+        /// Convert DateTime to number of minutes since mindinght 2019-01-01
         /// </summary>
         /// <param name="d">Desired DateTime</param>
-        /// <returns>Number of minutes since mindinght 2019-01-01</returns>
+        /// <returns>Number of minutes since mindinght 2020-01-01</returns>
         public static long GetMinuteId(this DateTime d) => d.Ticks / TICKS_TO_MINUTES_DIVIDER - Year2020StartMinuteId;
 
         /// <summary>
-        /// COnvert DateTime to number of seconds since mindinght 2019-01-01
+        /// Convert DateTime to number of seconds since mindinght 2019-01-01
         /// </summary>
         /// <param name="d">Desired DateTime</param>
-        /// <returns>Number of seconds since mindinght 2019-01-01</returns>
+        /// <returns>Number of seconds since mindinght 2020-01-01</returns>
         public static long GetSecondId(this DateTime d) => d.Ticks / TICKS_TO_SECONDS_DIVIDER - Year2020StartSecondId;
 
         /// <summary>
-        /// Converts minutes passed from 2019-01-01 00:00:00 to DateTime
+        /// Converts minutes passed from 2020-01-01 00:00:00 to DateTime
         /// </summary>
-        /// <param name="d">Number of minutes passed from 2019-01-01 00:00:00</param>
+        /// <param name="d">Number of minutes passed from 2020-01-01 00:00:00</param>
         /// <returns>Date and time rounded to minutes</returns>
         public static DateTime GetDateTimeFromMinuteId(this long d) => Year2020Start + TimeSpan.FromMinutes(d);
         /// <summary>
-        /// Converts seconds passed from 2019-01-01 00:00:00 to DateTime
+        /// Converts seconds passed from 2020-01-01 00:00:00 to DateTime
         /// </summary>
-        /// <param name="d">Number of seconds passed from 2019-01-01 00:00:00</param>
+        /// <param name="d">Number of seconds passed from 2020-01-01 00:00:00</param>
         /// <returns>Date and time rounded to seconds</returns>
         public static DateTime GetDateTimeFromSecondId(this long d) => Year2020Start + TimeSpan.FromSeconds(d);
 
@@ -81,6 +93,11 @@ namespace YZ {
                 default: return (int)dow;
             }
         }
+
+
+        public static TimeSpan Sum(this IEnumerable<TimeSpan> src) => TimeSpan.FromMinutes(src.Sum(t => t.TotalMinutes));
+        public static TimeSpan Sum<T>(this IEnumerable<T> src, Func<T, TimeSpan> select) => TimeSpan.FromMinutes(src.Sum(t => select(t).TotalMinutes));
+
 
         public static double Age(this DateTime date) => (DateTime.Now - date).TotalDays / 365.242;
         public static bool IsToday(this DateTime d) => d >= DateTime.Today && d < DateTime.Today.AddDays(1);
@@ -137,7 +154,8 @@ namespace YZ {
         public static bool IsYesterday(this DateTime src, int offset = 1) => src.Date.AddDays(offset).IsToday();
         public static bool IsTomorrow(this DateTime src, int offset = 1) => src.Date.AddDays(-offset).IsToday();
 
-        public static string ToNativeDate(this DateTime src, string timeFormat = null) => (src.IsToday() ? "сегодня"
+        public static string ToNativeDate(this DateTime src, string timeFormat = null) => src == DateTime.MinValue || src == DateTime.MaxValue ? ""
+            : (src.IsToday() ? "сегодня"
             : src.IsYesterday() ? "вчера"
             : src.IsYesterday(2) ? "позавчера"
             : src.IsTomorrow() ? "завтра"
