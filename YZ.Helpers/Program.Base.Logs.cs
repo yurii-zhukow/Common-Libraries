@@ -9,7 +9,7 @@ namespace YZ {
 
     public abstract partial class ProgramBase {
 
-        static Dictionary<LogPrefix, string> LogPrefixDescription = YZ.Helpers.EnumToDictionary<LogPrefix, string>(t => t.GetDescription());
+        static Dictionary<LogPrefix, string> LogPrefixDescription = YZ.Helpers.EnumToDictionary<LogPrefix, string>((Func<LogPrefix, string>)(t => Helpers.GetEnumDescription(t)));
         static Dictionary<LogPrefix, ConsoleColor> LogPrefixColor = YZ.Helpers.EnumToDictionary<LogPrefix, ConsoleColorAttribute, ConsoleColor>(false, a => a.Color, e => ConsoleColor.White);
 
         static object logLock = new object();
