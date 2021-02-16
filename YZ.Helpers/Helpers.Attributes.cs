@@ -31,5 +31,18 @@ namespace YZ {
         }
         public static TValue GetAttr<T, TAttr, TValue>(this T value, bool inherit, Func<TAttr, TValue> getValue, Func<T, TAttr> dflt = null) where TAttr : Attribute => getValue(GetAttr(value, inherit, dflt));
 
+        public static string GetDescription<TType>(this TType value, bool inherit = false) => GetAttr<TType, DescriptionAttribute>(value, inherit)?.Description ?? "";
+        public static string GetBriefDescription<TType>(this TType value, bool inherit = false) => GetAttr<TType, BriefDescriptionAttribute>(value, inherit)?.BriefDescription ?? value.GetDescription(inherit);
+
+        public static string GetDescription<TType>(this TType value, GetDescriptionMode mode, bool inherit = false) {
+            var brief = mode.HasFlag(GetDescriptionMode.Brief);
+
+            if (brief) {
+                var res = GetBriefDescription(value, inherit);
+                return mode.HasFlag(GetDescriptionMode.Full) && string.IsNullOrEmpty(res) ? GetDescription(value, GetDescriptionMode.Full, inherit) : res;
+            }
+            return GetDescription(value, inherit);
+        }
+
     }
 }

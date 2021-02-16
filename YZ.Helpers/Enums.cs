@@ -24,5 +24,7 @@ namespace YZ {
         Json
     }
 
+    [Flags] public enum GetDescriptionMode { Brief = 1, Full = 2, BriefOrFull = 3 }
+
 
 }
