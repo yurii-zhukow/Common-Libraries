@@ -15,6 +15,8 @@ namespace YZ {
 
         public static IEnumerable<Range<T>> Recombine<T>(this IEnumerable<Range<T>> src) where T : IComparable<T> => Range<T>.Recombine(src);
         public static IEnumerable<T2> Recombine<T, T2>(this IEnumerable<T2> src, Func<Range<T>, T2> convert) where T : IComparable<T> where T2 : Range<T> => Range<T>.Recombine<T2>(src, convert);
+        public static TimeSpan Sum(this IEnumerable<DateRange> src) => src.Sum(t => t.Length);
+        public static TimeSpan Sum(this IEnumerable<Range<DateTime>> src) => src.Sum(t => t.Stop - t.Start);
     }
 
 
