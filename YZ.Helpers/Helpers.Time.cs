@@ -152,9 +152,9 @@ namespace YZ {
 
 
         public static bool IsYesterday(this DateTime src, int offset = 1) => src.Date.AddDays(offset).IsToday();
-        public static bool IsTomorrow(this DateTime src, int offset = 1) => src.Date.AddDays(-offset).IsToday();
+        public static bool IsTomorrow(this DateTime src, int offset = 1) => src >= Year2020Start && src.Date.AddDays(-offset).IsToday();
 
-        public static string ToNativeDate(this DateTime src, string timeFormat = null) => src == DateTime.MinValue || src == DateTime.MaxValue ? ""
+        public static string ToNativeDate(this DateTime src, string timeFormat = null) => src < Year1970Start || src == DateTime.MaxValue ? ""
             : (src.IsToday() ? "сегодня"
             : src.IsYesterday() ? "вчера"
             : src.IsYesterday(2) ? "позавчера"
