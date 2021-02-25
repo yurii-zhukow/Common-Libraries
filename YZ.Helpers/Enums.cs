@@ -21,7 +21,9 @@ namespace YZ {
         [Description("DATA: "), ConsoleColor(ConsoleColor.Green)]
         Data,
         [Description("JSON: "), ConsoleColor(ConsoleColor.DarkGreen)]
-        Json
+        Json,
+        [Description("INFO: "), ConsoleColor(ConsoleColor.Blue)]
+        InfoTemp
     }
 
     [Flags] public enum GetDescriptionMode { Brief = 1, Full = 2, BriefOrFull = 3 }

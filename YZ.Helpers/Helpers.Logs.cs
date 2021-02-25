@@ -41,7 +41,10 @@ namespace YZ {
         Fatal,
 
         [Description("DISABLE"), ConsoleColor(ConsoleColor.Red)]
-        Disable
+        Disable,
+
+        [Description("INFO"), ConsoleColor(ConsoleColor.Blue)]
+        Temp
 
     }
 
@@ -249,6 +252,7 @@ namespace YZ {
         public void Error(Exception ex, Verbosity v = Verbosity.Error, string prefix = "", [CallerMemberName] string callerName = "", [CallerFilePath] string file = "", [CallerLineNumber] int line = -1) => Storage.Error(ex, v, $"{Prefix}.{prefix}.{callerName} ({file.GetPathEnding(2)} : {line})".Replace("..", ".").Trim('.'));
         public void Error(string s, Verbosity v = Verbosity.Error, string prefix = "", [CallerMemberName] string callerName = "", [CallerFilePath] string file = "", [CallerLineNumber] int line = -1) => Storage.Error(s, v, $"{Prefix}.{prefix}.{callerName} ({file.GetPathEnding(2)} : {line})".Replace("..", ".").Trim('.'));
 
+        public void InfoTemp(string s, string prefix = "", [CallerMemberName] string callerName = "", [CallerFilePath] string file = "", [CallerLineNumber] int line = -1) => Log(s, Verbosity.Temp, prefix, callerName, file, line);
 
         public virtual void Dispose() {
         }
