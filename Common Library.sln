@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers.WebRtc", "YZ.Hel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YZ.Helpers.Win32", "YZ.Helpers.Win32\YZ.Helpers.Win32.csproj", "{97920C48-48A4-47AF-85B8-C6A807F5A243}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YZ.Helpers.Test", "YZ.Helpers.Test\YZ.Helpers.Test.csproj", "{5F5FBA28-818E-42BC-B40A-0E99D20B32EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{97920C48-48A4-47AF-85B8-C6A807F5A243}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97920C48-48A4-47AF-85B8-C6A807F5A243}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97920C48-48A4-47AF-85B8-C6A807F5A243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5FBA28-818E-42BC-B40A-0E99D20B32EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5FBA28-818E-42BC-B40A-0E99D20B32EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5FBA28-818E-42BC-B40A-0E99D20B32EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5FBA28-818E-42BC-B40A-0E99D20B32EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
