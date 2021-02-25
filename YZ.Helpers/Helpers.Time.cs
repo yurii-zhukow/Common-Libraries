@@ -106,6 +106,17 @@ namespace YZ {
             return src;
         }
 
+        public static DateTime Constraint(this DateTime src, DateTime min) {
+            if (src < min) return min;
+            return src;
+        }
+
+        public static TimeSpan Constraint(this TimeSpan src, TimeSpan min) {
+            if (src < min) return min;
+            return src;
+        }
+
+
         public static TimeSpan Sum(this IEnumerable<TimeSpan> src) => TimeSpan.FromMinutes(src.Sum(t => t.TotalMinutes));
         public static TimeSpan Sum<T>(this IEnumerable<T> src, Func<T, TimeSpan> select) => TimeSpan.FromMinutes(src.Sum(t => select(t).TotalMinutes));
 
