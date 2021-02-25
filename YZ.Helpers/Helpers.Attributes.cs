@@ -71,8 +71,8 @@ namespace YZ {
             return GetDescription(value, inherit);
         }
 
-        public static string GetDescription<TType>(this TType value, string propName, bool inherit = false) => GetAttr<TType, DescriptionAttribute>(value, inherit)?.Description ?? "";
-        public static string GetBriefDescription<TType>(this TType value, string propName, bool inherit = false) => GetAttr<TType, BriefDescriptionAttribute>(value, inherit)?.BriefDescription ?? value.GetDescription(inherit);
+        public static string GetDescription<TType>(this TType value, string propName, bool inherit = false) => GetAttr<TType, DescriptionAttribute>(value, propName, inherit)?.Description ?? "";
+        public static string GetBriefDescription<TType>(this TType value, string propName, bool inherit = false) => GetAttr<TType, BriefDescriptionAttribute>(value, propName, inherit)?.BriefDescription ?? value.GetDescription(inherit);
 
         public static string GetDescription<TType>(this TType value, string propName, GetDescriptionMode mode, bool inherit = false) {
             var brief = mode.HasFlag(GetDescriptionMode.Brief);
