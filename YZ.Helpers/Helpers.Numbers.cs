@@ -45,17 +45,18 @@ namespace YZ {
             if (src.CompareTo(minmax.max) > 0) return outrangeDefault ?? minmax.max;
             return src;
         }
+
         public static T Constraint<T>(this T src, T min = null, T max = null, T outrangeDefault = null) where T : class, IComparable {
             if (min != null && (src == null || src.CompareTo(min) < 0)) return outrangeDefault ?? min;
             if (max != null && (src == null || src.CompareTo(max) > 0)) return outrangeDefault ?? max;
             return src;
         }
+
         public static T Constraint<T>(this T src, (T min, T max) minmax, T outrangeDefault = null) where T : class, IComparable {
             if (src.CompareTo(minmax.min) < 0) return outrangeDefault ?? minmax.min;
             if (src.CompareTo(minmax.max) > 0) return outrangeDefault ?? minmax.max;
             return src;
         }
-
 
         public static string ToString(this double value, double roundTo, string e0, string e1, string e2) {
             var t = value.RoundTo(roundTo);
@@ -68,12 +69,9 @@ namespace YZ {
             return $"{t}{e}";
         }
 
-
-
         public static string ToString(this int value, string e0, string e1, string e2) {
             var v100 = value % 100;
             var v10 = value % 10;
-
             var e = v100 > 4 && v100 < 21 || v10 % 10 > 4 || v10 == 0 ? e0 : v10 == 1 ? e1 : e2;
             return $"{value}{e}";
         }
