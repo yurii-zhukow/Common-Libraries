@@ -38,16 +38,16 @@ namespace YZ {
 
         public static TAttr GetAttr<T, TAttr>(this T value, string propName, bool inherit, Func<T, string, TAttr> dflt = null) where TAttr : Attribute {
             if (value == null) return dflt?.Invoke(default, propName);
-            var fi = typeof(T).GetField(propName);
+            var fi = typeof(T).GetMember(propName);
             if (fi == null) return dflt?.Invoke(value, propName);
-            return fi.GetCustomAttribute<TAttr>(inherit) ?? dflt?.Invoke(value, propName);
+            return fi.Select(t => t.GetCustomAttribute<TAttr>(inherit)).Where(t => t != null).FirstOrDefault() ?? dflt?.Invoke(value, propName);
         }
 
         public static TAttr[] GetAttrs<T, TAttr>(this T value, string propName, bool inherit) where TAttr : Attribute {
             if (value == null) return new TAttr[0];
-            var fi = typeof(T).GetField(propName);
+            var fi = typeof(T).GetMember(propName);
             if (fi == null) return new TAttr[0];
-            return fi.GetCustomAttributes<TAttr>(inherit).OfType<TAttr>().ToArray() ?? new TAttr[0];
+            return fi.SelectMany(t => t.GetCustomAttributes<TAttr>(inherit).OfType<TAttr>()).Where(t => t != null).ToArray() ?? new TAttr[0];
         }
 
 
