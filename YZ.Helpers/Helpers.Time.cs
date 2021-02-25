@@ -94,6 +94,17 @@ namespace YZ {
             }
         }
 
+        public static DateTime Constraint(this DateTime src, DateTime? min = null, DateTime? max = null, DateTime? outrangeDefault = null) {
+            if (min.HasValue && src < min.Value) return outrangeDefault ?? min.Value;
+            if (max.HasValue && src > max.Value) return outrangeDefault ?? max.Value;
+            return src;
+        }
+
+        public static TimeSpan Constraint(this TimeSpan src, TimeSpan? min = null, TimeSpan? max = null, TimeSpan? outrangeDefault = null) {
+            if (min.HasValue && src < min.Value) return outrangeDefault ?? min.Value;
+            if (max.HasValue && src > max.Value) return outrangeDefault ?? max.Value;
+            return src;
+        }
 
         public static TimeSpan Sum(this IEnumerable<TimeSpan> src) => TimeSpan.FromMinutes(src.Sum(t => t.TotalMinutes));
         public static TimeSpan Sum<T>(this IEnumerable<T> src, Func<T, TimeSpan> select) => TimeSpan.FromMinutes(src.Sum(t => select(t).TotalMinutes));
