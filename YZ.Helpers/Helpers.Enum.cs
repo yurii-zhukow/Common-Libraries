@@ -17,6 +17,51 @@ namespace YZ {
         Fatal = 5
     }
 
+    public enum RussianCase {
+        /// <summary>
+        /// Именительный падеж
+        /// </summary>
+        [Description("Именительный")] Nominative = 1,
+
+        /// <summary>
+        /// Родительный падеж
+        /// </summary>
+        [Description("Родительный")] Genitive,
+        /// <summary>
+        /// Дательный падеж
+        /// </summary>
+        [Description("Дательный")] Dative,
+        /// <summary>
+        /// Винительный падеж
+        /// </summary>
+        [Description("Винительный")] Accusative,
+        /// <summary>
+        /// Творительный падеж
+        /// </summary>
+        [Description("Творительный")] Instrumental,
+        /// <summary>
+        /// Предложный падеж
+        /// </summary>
+        [Description("Предложный")] Prepositional
+    }
+
+    public enum RussianCount {
+        /// <summary>
+        /// Ноль, Пять, Шесть или много...
+        /// </summary>
+        Zero,
+        /// <summary>
+        /// Один, Двадцать Один... 
+        /// </summary>
+        One,
+        /// <summary>
+        /// Два, Три, Четыре...
+        /// </summary>
+        Two
+    }
+
+
+    public enum TimeUnit { Second, Minute, Hour, Day, Week, Month, Year }
 
 
     public static partial class Helpers {
@@ -125,7 +170,7 @@ namespace YZ {
         public static bool Is<T>(this T value, params T[] allowed) where T : Enum => allowed.Contains(value);
 
 
-        public static string GetEnumDescription<TEnum>(this TEnum value, GetDescriptionMode mode = GetDescriptionMode.Full) where TEnum:Enum {
+        public static string GetEnumDescription<TEnum>(this TEnum value, GetDescriptionMode mode = GetDescriptionMode.Full) where TEnum : Enum {
             var brief = mode.HasFlag(GetDescriptionMode.Brief);
             var type = typeof(TEnum);
             var name = Enum.GetName(type, value);
