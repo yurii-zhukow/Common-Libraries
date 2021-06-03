@@ -9,7 +9,7 @@ using System.Net.NetworkInformation;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
-
+using System.Threading;
 
 namespace YZ {
 
@@ -50,7 +50,7 @@ namespace YZ {
 
 
 
-    public class LogStorage {
+    public class LogStorage : IDisposable {
 
         public static readonly Dictionary<Verbosity, ConsoleColor> VerbosityConsoleColors = Helpers.EnumToDictionary<Verbosity, ConsoleColorAttribute, ConsoleColor>(true, resFunc: a => a.Color, dflt: _ => ConsoleColor.DarkGray);
         public static readonly Dictionary<Verbosity, string> VerbosityDescriptions = Helpers.EnumToDictionary<Verbosity, DescriptionAttribute, string>(true, resFunc: a => a.Description, dflt: t => t.ToString());
@@ -61,22 +61,37 @@ namespace YZ {
         static TextWriter curLogWriter = null;
         static DateTime curLogStarted = DateTime.MinValue;
         static int curLogLinesSaved = 0;
+        static DateTime curLogLastWritten = DateTime.Now;
+        static Timer autoCloseTimer = new Timer(_ => {
+            lock (curLogLock) { if ((DateTime.Now - curLogLastWritten).TotalMinutes < 1) return; }
+            closeCurLogFile("Log is not active. Closed.");
+
+        }, null, TimeSpan.FromSeconds(30), TimeSpan.FromMinutes(1));
+
+        static void closeCurLogFile(string s) {
+            try {
+                if (curLogWriter != null && !string.IsNullOrWhiteSpace(s)) {
+                    curLogWriter.WriteLine($"\n\n[{DateTime.Now:g}] {s}");
+                }
+                curLogWriter?.Close();
+                curLogWriter?.Dispose();
+                curLogStream?.Close();
+                curLogStream?.Dispose();
+            } finally {
+                curLogStream = null;
+                curLogWriter = null;
+            }
+        }
 
         static void newCurLogFile() {
             var n = DateTime.Now;
             var dir = "Temp\\Logs".GetFullAppPath();
             Directory.CreateDirectory(dir);
+            var newLogFilename = $"{dir}\\{n:yyyy-MM-dd HH-mm-ss}.log";
 
+            closeCurLogFile($"File closed. Next log will be created: {newLogFilename }");
             try {
-                curLogWriter?.Close();
-                curLogWriter?.Dispose();
-                curLogStream?.Close();
-                curLogStream?.Dispose();
-            } catch { }
-
-
-            try {
-                curLogFilename = $"{dir}\\{n:yyyy-MM-dd HH-mm-ss}.log";
+                curLogFilename = newLogFilename;
                 for (var x = 0; x < 1000; x++)
                     try {
                         curLogStream = new FileStream(curLogFilename, FileMode.CreateNew, FileAccess.Write);
@@ -100,16 +115,14 @@ namespace YZ {
             if (curLogStream == null || (DateTime.Now - curLogStarted > TimeSpan.FromHours(1)) || curLogLinesSaved > 10000) newCurLogFile();
         }
 
-        static void writeLineToCurLogFile2(string s) {
-            curLogWriter?.WriteLine(s);
-            curLogLinesSaved++;
-        }
 
 
         static void writeLineToCurLogFile(string s) {
             lock (curLogLock) {
                 checkCurLogFile();
-                writeLineToCurLogFile2(s);
+                curLogWriter?.WriteLine(s);
+                curLogLastWritten = DateTime.Now;
+                curLogLinesSaved++;
             }
         }
         public static Verbosity DefaultVerbosity { get; set; } = Verbosity.Any;
@@ -183,6 +196,10 @@ namespace YZ {
 
         public void Error(Exception ex, Verbosity v = Verbosity.Error, string prefix = "") => Log($"{ex.GetInner("   <==   ")} \n\nStack:\n{ex.StackTrace}\n\n", v, prefix);
         public void Error(string s, Verbosity v = Verbosity.Error, string prefix = "") => Log(s, v, prefix);
+        public void Dispose() {
+            autoCloseTimer?.Dispose();
+            autoCloseTimer = null;
+        }
 
         public class Item {
 
