@@ -135,13 +135,13 @@ namespace YZ {
         public static string ToHoursMinutes(this TimeSpan t, bool ignoreNegative = false) {
             var h = (int)Math.Abs(t.TotalHours);
             var m = t.Minutes;
-            return $"{(!ignoreNegative && t.TotalHours < 0 ? "-" : "")}{(h > 0 ? h.ToString("часов ", "час ", "часа ") : "")}{(m > 0 || h == 0 ? m.ToString("минут", "минута", "минуты") : "")}".Trim();
+            return $"{(!ignoreNegative && t.TotalHours < 0 ? "-" : "")}{(h > 0 ? h.ToString(" часов ", " час ", " часа ") : "")}{(m > 0 || h == 0 ? m.ToString(" минут", " минута", " минуты") : "")}".Trim();
         }
 
         public static string ToHoursMinutes2(this TimeSpan t, bool ignoreNegative = false) {
             var h = (int)Math.Abs(t.TotalHours);
             var m = t.Minutes;
-            return $"{(!ignoreNegative && t.TotalHours < 0 ? "-" : "")}{(h > 0 ? h.ToString("часов ", "часа ", "часов ") : "")}{(m > 0 || h == 0 ? m.ToString("минут", "минуты", "минут") : "")}".Trim();
+            return $"{(!ignoreNegative && t.TotalHours < 0 ? "-" : "")}{(h > 0 ? h.ToString(" часов ", " часа ", " часов ") : "")}{(m > 0 || h == 0 ? m.ToString(" минут", " минуты", " минут") : "")}".Trim();
         }
 
 
