@@ -1,28 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-
     <PackageId>YZ.Helpers.Win32</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.8</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
-
     <Title>YZ Helpers for Win32</Title>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
     <Description>This package contains Win32 related Helpers.</Description>
-    <Copyright>YZ Works © 2020</Copyright>
+    <Copyright>YZ Works (C) 2021</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.Win32/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-
-
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
-
 </Project>

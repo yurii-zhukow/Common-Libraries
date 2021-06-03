@@ -1,22 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>YZ.EFCore</RootNamespace>
     <AssemblyName>YZ.Helpers.WebRTC</AssemblyName>
     <LangVersion>latest</LangVersion>
-
     <PackageId>YZ.Helpers.WebRTC</PackageId>
-    <Version>1.0.10</Version>
+    <Version>1.0.20</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
-
     <Title>YZ WebRTC Helpers</Title>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
-
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
     <Title>YZ WebRTC Helpers</Title>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
@@ -28,14 +23,9 @@
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.WebRtc/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-
-
   </PropertyGroup>
   <ItemGroup>
-
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
-
-
     <Compile Remove="SDK\WebRtc.NET\**" />
     <Compile Remove="~SDK\**" />
     <EmbeddedResource Remove="SDK\WebRtc.NET\**" />
@@ -43,19 +33,16 @@
     <None Remove="SDK\WebRtc.NET\**" />
     <None Remove="~SDK\**" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Fleck" Version="1.1.0" />
     <PackageReference Include="LitJson" Version="0.17.0" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="WebRtc.NET">
       <HintPath>WebRtc.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="concrt140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -76,5 +63,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>

@@ -1,38 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>YZ</RootNamespace>
     <AssemblyName>YZ.Helpers</AssemblyName>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
     <PackageId>YZ.Helpers</PackageId>
-    <Version>1.0.16</Version>
+    <Version>1.0.30</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
-
     <Title>YZ Common Helpers</Title>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
     <Description>This package contains mostly used Helpers elements.</Description>
-    <Copyright>YZ Works © 2021</Copyright>
-    <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers/Readme.md</ReadMeMdUrl>
+    <Copyright>YZ Works (C) 2021</Copyright>
+    <!--<ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers/Readme.md</ReadMeMdUrl>-->
+    <ReadMeMdUrl>https://raw.githubusercontent.com/yurii-zhukow/Common-Libraries/master/YZ.Helpers/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Platforms>AnyCPU;x64</Platforms>
-
   </PropertyGroup>
-
-
   <ItemGroup>
     <None Include="..\icon.png" Pack="true" PackagePath="\" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Console" Version="4.3.1" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.8" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
   </ItemGroup>
-
-
-
 </Project>
