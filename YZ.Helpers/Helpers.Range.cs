@@ -22,7 +22,7 @@ namespace YZ {
 
     [Serializable]
 
-    public class Range<T> : IComparable<Range<T>>, IEquatable<Range<T>> where T : IComparable<T> {
+    public class Range<T> : IFormattable, IComparable<Range<T>>, IEquatable<Range<T>> where T : IComparable<T> {
 
 
         public T Start { get; set; }
@@ -57,12 +57,8 @@ namespace YZ {
         public (T, T) Deconstruct() => (Start, Stop);
 
         public override string ToString() => ToString("-");
-
-        public string ToString(string separator) {
-            if (Start.CompareTo(Stop) == 0) return Start.ToString();
-            return $"{Start}{separator}{Stop}";
-        }
-
+        public string ToString(string separator) => Start.CompareTo(Stop) == 0 ? Start.ToString() : $"{Start}{separator}{Stop}";
+        public string ToString(string format, IFormatProvider formatProvider) => string.IsNullOrWhiteSpace(format) || formatProvider == null ? ToString() : Start.CompareTo(Stop) == 0 ? string.Format(formatProvider, format, Start) : string.Format(formatProvider, format, Start) + "-" + string.Format(formatProvider, format, Stop);
 
         public static Range<T> Parse(string s, Func<string, T> convert, T dflt = default, string separator = "-") {
             T cvt(string v) {
@@ -173,6 +169,7 @@ namespace YZ {
                 );
             return l.Append(m).ToList();
         }
+
 
         class TAcc : Tuple<IEnumerable<Range<T>>, Range<T>> {
             public TAcc(IEnumerable<Range<T>> item1, Range<T> item2) : base(item1, item2) { }
@@ -311,6 +308,9 @@ namespace YZ {
             }
             return res;
         }
+
+        public IEnumerable<DateRange> SplitByMonth() => SplitByDay().GroupBy(t => t.Start.StartOfMonth()).SelectMany(Recombine).Select(t => (DateRange)t).ToList();
+        public IEnumerable<DateRange> SplitByYear() => SplitByMonth().GroupBy(t => t.Start.StartOfYear()).SelectMany(Recombine).Select(t => (DateRange)t).ToList();
 
 
         public IEnumerable<DateRange> SplitByHour() {
