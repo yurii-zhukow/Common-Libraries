@@ -5,7 +5,7 @@
     <AssemblyName>YZ.Helpers.WebRTC</AssemblyName>
     <LangVersion>latest</LangVersion>
     <PackageId>YZ.Helpers.WebRTC</PackageId>
-    <Version>1.0.20</Version>
+    <Version>1.0.21</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
     <Title>YZ WebRTC Helpers</Title>
@@ -19,7 +19,7 @@
       This package contains Helpers for WebRTC.
       BasedOn WebRtc.NET
     </Description>
-    <Copyright>YZ Works © 2021</Copyright>
+    <Copyright>YZ Works В© 2021</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.WebRtc/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
