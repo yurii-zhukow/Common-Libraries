@@ -8,61 +8,6 @@ using System.Text;
 
 namespace YZ {
 
-    public enum Severity {
-        NotError = 0,
-        Hint = 1,
-        Warning = 2,
-        Error = 3,
-        Critical = 4,
-        Fatal = 5
-    }
-
-    public enum RussianCase {
-        /// <summary>
-        /// Именительный падеж
-        /// </summary>
-        [Description("Именительный")] Nominative = 1,
-
-        /// <summary>
-        /// Родительный падеж
-        /// </summary>
-        [Description("Родительный")] Genitive,
-        /// <summary>
-        /// Дательный падеж
-        /// </summary>
-        [Description("Дательный")] Dative,
-        /// <summary>
-        /// Винительный падеж
-        /// </summary>
-        [Description("Винительный")] Accusative,
-        /// <summary>
-        /// Творительный падеж
-        /// </summary>
-        [Description("Творительный")] Instrumental,
-        /// <summary>
-        /// Предложный падеж
-        /// </summary>
-        [Description("Предложный")] Prepositional
-    }
-
-    public enum RussianCount {
-        /// <summary>
-        /// Ноль, Пять, Шесть или много...
-        /// </summary>
-        Zero,
-        /// <summary>
-        /// Один, Двадцать Один... 
-        /// </summary>
-        One,
-        /// <summary>
-        /// Два, Три, Четыре...
-        /// </summary>
-        Two
-    }
-
-
-    public enum TimeUnit { Second, Minute, Hour, Day, Week, Month, Year }
-
 
     public static partial class Helpers {
 
