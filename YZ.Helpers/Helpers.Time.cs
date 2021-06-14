@@ -187,7 +187,45 @@ namespace YZ {
 
         public static string ToNativeDateShort(this DateTime src) => src.IsCurrentYear() ? src.ToString("dd.MM") : src.ToString("dd.MM.yyyy");
 
-        public static string ToFriendlyString(this TimeSpan ts) {
+        //        static ConcurrentDictionary<TimeUnit, RussianCase, RussianCount, string> TimeCases = new (TimeUnit time, RussianCase cs, string[] vals)[] {
+        //            (TimeUnit.Year, RussianCase.Nominative, new[]{" лет", " год", " года" }),
+        //        }.GroupBy(t=>t.time).Select(g=>(time:g.Key,items: g.GroupBy(c=>c.cs).Select(gg=>(cs:gg.Key, items:new ConcurrentDictionary<RussianCount,string>(gg.Select(t=>t.vals.Select())))).ToDictionary()).ToDictionary(g=>g.time,g=>g.items);
+        //            {
+        //                {" лет", " год", " года" },
+        //                    { "","","" },
+        //                    { "","","" },
+        //                    { "","","" },
+        //                    { "","","" },
+        //                    { "","","" }
+        //            },
+        //            {
+        //                {" месяцев", " месяц", " месяца"},
+        //                    { "","","" },
+        //                    { "","","" },
+        //                    { "","","" },
+        //                    { "","","" },
+        //                    { "","","" }
+        //            },
+        //            {
+        //    { " недель", " неделя", " недели"},{ "","","" },{ "","","" },{ "","","" },{ "","","" },{ "","","" }
+        //},
+        //            {
+        //    { " дней", " день", " дня"},{ "","","" },{ "","","" },{ "","","" },{ "","","" },{ "","","" }
+        //},
+        //            {
+        //    { " часов", " час", " часа" },{ "","","" },{ "","","" },{ "","","" },{ "","","" },{ "","","" }
+        //},
+        //            {
+        //    { " минут", " минута", " минуты"},{ "","","" },{ "","","" },{ "","","" },{ "","","" },{ "","","" }
+        //},
+        //            {
+        //    { " секунд", " секунда", " секунды"},{ "","","" },{ "","","" },{ "","","" },{ "","","" },{ "","","" }
+        //}
+
+        //            };
+
+
+        public static string ToFriendlyString(this TimeSpan ts, RussianCase rc = RussianCase.Nominative) {
 
             if (ts.TotalDays > 365) return ToString(ts.TotalDays / 365, 1, " лет", " год", " года");
             if (ts.TotalDays > 30) return ToString(ts.TotalDays / 30, 1, " месяцев", " месяц", " месяца");
