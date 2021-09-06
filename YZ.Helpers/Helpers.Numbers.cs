@@ -30,6 +30,8 @@ namespace YZ {
 
         public static double RoundTo(this double x, double step) => Math.Round(x / step) * step;
         public static double RoundTo(this double x, double step, int decimals) => Math.Round(x.RoundTo(step), decimals);
+        public static decimal RoundTo(this decimal x, decimal step) => Math.Round(x / step) * step;
+
         public static bool InRange(this int x, int min, int max) => x >= min && x <= max;
         public static bool InRange(this double x, double min, double max) => x >= min && x <= max;
         public static bool InRange<T>(this T x, T min, T max) where T : IComparable<T> => x.CompareTo(min) >= 0 && x.CompareTo(max) <= 0;
