@@ -59,16 +59,19 @@ namespace YZ {
         }
 
 
-        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn) => src.SafeCall(fn, default, out _);
-        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, TResult dflt) => src.SafeCall(fn, dflt, out _);
-        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, TResult dflt, out Exception ex) {
+        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn) => src.SafeCall(fn, () => default, out _);
+        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, TResult dflt) => src.SafeCall(fn, () => dflt, out _);
+        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, TResult dflt, out Exception ex) => src.SafeCall(fn, () => dflt, out ex);
+        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, Func<TResult> dflt) => src.SafeCall(fn, dflt, out _);
+        public static TResult SafeCall<TSource, TResult>(this TSource src, Func<TSource, TResult> fn, Func<TResult> dflt, out Exception ex) {
             try {
                 ex = null;
                 return fn(src);
             } catch (Exception e) {
-                ex = e; return dflt;
+                ex = e; return dflt();
             }
         }
+
         public static bool SafeCall<TSource>(this TSource src, Action<TSource> fn) => src.SafeCall(fn, out _);
         public static bool SafeCall<TSource>(this TSource src, Action<TSource> fn, out Exception ex) {
             try {
@@ -98,13 +101,19 @@ namespace YZ {
             }
         }
 
-        public static TResult SafeCall<TResult>(this Func<TResult> fn, TResult @default = default) {
+        public static TResult SafeCall<TResult>(this Func<TResult> fn, out Exception ex, Func<TResult> dflt) {
             try {
+                ex = null;
                 return fn();
-            } catch {
-                return @default;
+            } catch (Exception e) {
+                ex = e;
+                return dflt();
             }
         }
+
+
+        public static TResult SafeCall<TResult>(this Func<TResult> fn, TResult dflt) => SafeCall(fn, out _, () => dflt);
+
         public static TResult SafeCall<TResult>(this Func<TResult> fn, out Exception ex, TResult @default = default) {
             try {
                 ex = null;
