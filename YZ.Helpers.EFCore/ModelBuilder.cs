@@ -26,7 +26,7 @@ namespace YZ.EFCore {
         public ModelBuilder<T> AddUnique(bool clustered, params Expression<Func<T, object>>[] fields) => call(() => fields.ToList().ForEach(f => modelBuilder.Entity<T>().HasIndex(f).IsUnique().IsClustered(clustered)));
         public ModelBuilder<T> AddDefault(Expression<Func<T, object>> field, string valueSql) => call(() => modelBuilder.Entity<T>().Property(field).HasDefaultValueSql(valueSql));
         public ModelBuilder<T> AddRequired(params Expression<Func<T, object>>[] fields) => call(() => fields.ToList().ForEach(f => modelBuilder.Entity<T>().Property(f).IsRequired(true)));
-        public ModelBuilder<T> JsonConvert<TField>(Expression<Func<T, object>>[] fields) => call(() => fields.ToList().ForEach(f => modelBuilder.Entity<T>().Property(f).HasConversion(t => Newtonsoft.Json.JsonConvert.SerializeObject(t), t => Newtonsoft.Json.JsonConvert.DeserializeObject<TField>(t))));
+        public ModelBuilder<T> JsonConvert<T2>(Expression<Func<T, T2>> field) => call(() => modelBuilder.Entity<T>().Property(field).HasConversion(t => Newtonsoft.Json.JsonConvert.SerializeObject(t), t => Newtonsoft.Json.JsonConvert.DeserializeObject<T2>(t)));
 
         public ModelBuilder<T> OnDelete<T2>(Expression<Func<T, T2>> field, Expression<Func<T2, IEnumerable<T>>> foreignField, DeleteBehavior deleteBehavior) where T2 : class => call(() => modelBuilder.Entity<T>().HasOne(field).WithMany(foreignField).OnDelete(deleteBehavior));
         public ModelBuilder<T> OnDelete<T2>(Expression<Func<T, IEnumerable<T2>>> field, Expression<Func<T2, T>> foreignField, DeleteBehavior deleteBehavior) where T2 : class => call(() => modelBuilder.Entity<T>().HasMany(field).WithOne(foreignField).OnDelete(deleteBehavior));
