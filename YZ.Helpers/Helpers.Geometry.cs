@@ -48,13 +48,40 @@ namespace YZ {
         public static PointF Translate(this PointF src, PointF offs) => new PointF(src.X + offs.X, src.Y + offs.Y);
         public static PointF Translate(this PointF src, float x, float y) => new PointF(src.X + x, src.Y + y);
 
-        /// <summary>
-        /// Check if the given point is inside the shape
-        /// </summary>
-        /// <param name="shape">bounding shape</param>
-        /// <param name="pt">point</param>
-        /// <returns>true if inside</returns>
-        public static bool IsInside(this PointF pt, IEnumerable<PointF> shape) => shape.Count() >= 3 && shape.Aggregate((inside: false, prev: shape.Last()), (acc, p) => (p.Y < pt.Y && acc.prev.Y >= pt.Y || acc.prev.Y < pt.Y && p.Y >= pt.Y) && p.X + (pt.Y - p.Y) / (acc.prev.Y - p.Y) * (acc.prev.X - p.X) < pt.X ? (!acc.inside, p) : (acc.inside, p)).inside;
+
+        public struct LineF {
+            public LineF(PointF a, PointF b) { A = a; B = b; }
+            public LineF(float ax, float ay, float bx, float by) : this(new PointF(ax, ay), new PointF(bx, by)) { }
+            public readonly PointF A;
+            public readonly PointF B;
+
+            public double MinX => Math.Min(A.X, B.X);
+            public double MaxX => Math.Max(A.X, B.X);
+            public double MinY => Math.Min(A.Y, B.Y);
+            public double MaxY => Math.Max(A.Y, B.Y);
+            public double Length {
+                get {
+                    double dx = A.X - B.X, dy = A.Y - B.Y;
+                    return Math.Sqrt(dx * dx + dy * dy);
+                }
+            }
+
+            public bool Contains(PointF p, bool strict = true) {
+                var online = (p.X - A.X) / (B.X - A.X) == (p.Y - A.Y) / (B.Y - A.Y);
+                if (!strict) return online;
+                return online && p.X >= MinX && p.X <= MaxX && p.Y >= MinY && p.Y <= MaxY;
+            }
+        }
+
+        public static bool IsInside(this PointF pt, IEnumerable<PointF> shape) {
+            var c = shape?.Count() ?? 0;
+            if (c == 0) return false;
+            var first = shape.First();
+            if (c == 1) return Math.Abs(first.X - pt.X) < double.Epsilon && Math.Abs(first.Y - pt.Y) < double.Epsilon;
+            var last = shape.Last();
+            if (c == 2) return new LineF(first, last).Contains(pt);
+            return shape.Count() >= 3 && shape.Aggregate((inside: false, prev: shape.Last()), (acc, p) => ((p.Y < pt.Y && acc.prev.Y >= pt.Y) || acc.prev.Y < pt.Y && p.Y >= pt.Y) && p.X + (pt.Y - p.Y) / (acc.prev.Y - p.Y) * (acc.prev.X - p.X) < pt.X ? (!acc.inside, p) : (acc.inside, p)).inside;
+        }
 
     }
 

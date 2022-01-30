@@ -129,6 +129,19 @@ namespace YZ {
             return "";
         }
 
+        public static string GetEnumDescription(this Enum value, GetDescriptionMode mode = GetDescriptionMode.Full) {
+            var brief = mode.HasFlag(GetDescriptionMode.Brief);
+            var type = value.GetType();
+            var name = Enum.GetName(type, value);
+            if (name == null) return value.ToString();
+            var field = type.GetField(name);
+            if (field == null) return name;
+            var attr = Attribute.GetCustomAttribute(field, brief ? typeof(BriefDescriptionAttribute) : typeof(DescriptionAttribute), false);
+            if (attr == null) return brief ? GetEnumDescription(value, GetDescriptionMode.Full) : "";
+            if (brief && attr is BriefDescriptionAttribute ba) return ba.BriefDescription ?? GetEnumDescription(value, GetDescriptionMode.Full);
+            if (attr is DescriptionAttribute da) return da.Description ?? "";
+            return "";
+        }
 
 
         public static TEnum SafeCast<TEnum>(this string value, TEnum deflt = default, bool ignoreCase = false) where TEnum : struct => Enum.TryParse<TEnum>(value, ignoreCase, out var res) ? res : deflt;

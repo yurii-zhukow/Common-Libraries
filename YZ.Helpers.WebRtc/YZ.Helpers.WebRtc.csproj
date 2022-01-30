@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>YZ.EFCore</RootNamespace>
     <AssemblyName>YZ.Helpers.WebRTC</AssemblyName>
     <LangVersion>latest</LangVersion>
     <PackageId>YZ.Helpers.WebRTC</PackageId>
-    <Version>1.0.25</Version>
+    <Version>1.0.26</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
     <Title>YZ WebRTC Helpers</Title>
@@ -36,7 +36,7 @@
   <ItemGroup>
     <PackageReference Include="Fleck" Version="1.2.0" />
     <PackageReference Include="LitJson" Version="0.17.0" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="WebRtc.NET">

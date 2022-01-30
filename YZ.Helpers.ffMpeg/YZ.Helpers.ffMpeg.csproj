@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>YZ.FFMpeg</RootNamespace>
     <AssemblyName>YZ.Helpers.FFMpeg</AssemblyName>
     <LangVersion>latest</LangVersion>
     <PackageId>YZ.Helpers.FFMpeg</PackageId>
-    <Version>1.0.13</Version>
+    <Version>1.0.14</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
     <Title>YZ FFMpeg Helpers</Title>

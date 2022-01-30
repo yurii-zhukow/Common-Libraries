@@ -110,9 +110,11 @@ namespace YZ {
         static T max(T a, T b) => a.CompareTo(b) >= 0 ? a : b;
 
         public Range<T> CombineWith(Range<T> other) => new Range<T>(min(Start, other.Start), max(Stop, other.Stop));
+        public Range<T> IntersectWith(Range<T> other) => !IntersectsWith(other) ? null : other.FullyContains(this) ? this : this.FullyContains(other) ? other : Constraint(other);
 
         public bool IntersectsWith(Range<T> other) => other.Start.CompareTo(Stop) <= 0 && other.Stop.CompareTo(Start) >= 0;
         public bool FullyContains(Range<T> other) => other.Start.CompareTo(Start) >= 0 && other.Stop.CompareTo(Stop) <= 0;
+
         public bool Contains(T other) => other.CompareTo(Start) >= 0 && other.CompareTo(Stop) <= 0;
 
         public Range<T> Constraint(T min, T max) => new Range<T>(this.Start.CompareTo(min) < 0 ? min : this.Start, this.Stop.CompareTo(max) > 0 ? max : this.Stop);
@@ -152,6 +154,7 @@ namespace YZ {
         public static IEnumerable<Range<T>> operator -(Range<T> a, Range<T> b) => ReferenceEquals(a, null) ? new Range<T>[0] : a.Subtract(b);
         public static IEnumerable<Range<T>> operator -(Range<T> a, T b) => ReferenceEquals(a, null) ? new Range<T>[0] : a.Subtract(b);
 
+        public static Range<T> operator *(Range<T> a, Range<T> b) => ReferenceEquals(a, null) || ReferenceEquals(b, null) ? null : a.IntersectWith(b);
 
         public override int GetHashCode() => Start.GetHashCode() ^ Stop.GetHashCode();
 
@@ -175,8 +178,29 @@ namespace YZ {
             public TAcc(IEnumerable<Range<T>> item1, Range<T> item2) : base(item1, item2) { }
         }
 
+        public override bool Equals(object obj) {
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (ReferenceEquals(obj, null))
+                return false;
+            return obj is Range<T> r ? r.Equals(this) : false;
+        }
 
+        public static bool operator <(Range<T> left, Range<T> right) {
+            return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+        }
 
+        public static bool operator <=(Range<T> left, Range<T> right) {
+            return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(Range<T> left, Range<T> right) {
+            return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(Range<T> left, Range<T> right) {
+            return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+        }
     }
 
 
@@ -329,6 +353,13 @@ namespace YZ {
             var t = Start.EndOfQuarterHour().AddTicks(1);
             return new[] { new DateRange(Start, t) }.Concat(new DateRange(t, Stop).SplitByQuarterHour());
         }
+
+        public IEnumerable<DateRange> SplitByPoints(IEnumerable<DateTime> pts) {
+            pts = new[] { Start }.Concat(pts.Where(t => Contains(t)).OrderBy(t => t)).Append(Stop).ToList();
+            return pts.Select((t, ix) => (t, ix)).Join(pts.Skip(1).Select((t, ix) => (t, ix)), t => t.ix, t => t.ix, (start, stop) => new DateRange(start.t, stop.t));
+        }
+
+
     }
 
 
