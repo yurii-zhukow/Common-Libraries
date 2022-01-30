@@ -68,7 +68,7 @@ namespace YZ {
             }
         }
 
-
+        public static string ToString(this bool? b, string trueValue, string falseValue, string nullValue = null) => b?.ToString(trueValue, falseValue) ?? nullValue ?? falseValue;
         public static string ToString(this bool b, string trueValue, string falseValue) => b ? trueValue : falseValue;
 
         public static string Repeat(this string s, int count) {
