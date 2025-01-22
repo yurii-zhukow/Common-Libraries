@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>YZ.EFCore</RootNamespace>
     <AssemblyName>YZ.Helpers.WebRTC</AssemblyName>
     <LangVersion>latest</LangVersion>
     <PackageId>YZ.Helpers.WebRTC</PackageId>
-    <Version>1.0.26</Version>
+    <Version>1.0.28</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
     <Title>YZ WebRTC Helpers</Title>
@@ -19,7 +19,7 @@
       This package contains Helpers for WebRTC.
       BasedOn WebRtc.NET
     </Description>
-    <Copyright>YZ Works (c) 2021</Copyright>
+    <Copyright>YZ Works (C) 2023</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.WebRtc/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

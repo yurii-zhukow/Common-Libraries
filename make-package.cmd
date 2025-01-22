@@ -1,5 +1,5 @@
 pushd %~dp0
-call Powershell.exe -File version-bump.ps1 %1
+call Powershell.exe -executionpolicy bypass -File version-bump.ps1 %1
 popd
 pushd %~dp0\%1
 

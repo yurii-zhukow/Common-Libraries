@@ -463,7 +463,7 @@ namespace NDesk.Options {
             get { return this.option; }
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, SerializationFormatter = true)]
+        //[SecurityPermission(SecurityAction.LinkDemand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             base.GetObjectData(info, context);
             info.AddValue("OptionName", option);
@@ -648,7 +648,7 @@ namespace NDesk.Options {
             bool process = true;
             OptionContext c = CreateOptionContext();
             c.OptionIndex = -1;
-            var def = GetOptionForName("<>");
+            var def = this["<>"];
             var unprocessed =
                 from argument in arguments
                 where ++c.OptionIndex >= 0 && (process || def != null)

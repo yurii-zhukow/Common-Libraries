@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -20,6 +21,7 @@ namespace YZ.EFCore {
 
     public abstract class DbContextBase<Db> : DbContext where Db : DbContextBase<Db> {
 
+        public DbContextBase() { }
         public DbContextBase(DbContextOptions<Db> options) : base(options) { }
 
     }

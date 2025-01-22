@@ -15,8 +15,10 @@ namespace YZ {
 
         private const long TICKS_TO_SECONDS_DIVIDER = 10000 * 1000;
         private const long TICKS_TO_MINUTES_DIVIDER = TICKS_TO_SECONDS_DIVIDER * 60;
-        public static readonly DateTime Year2020Start = new DateTime(2020, 01, 01);
-        public static readonly DateTime Year1970Start = new DateTime(1970, 01, 01);
+        public static readonly DateTime Year1970Start = new DateTime(1970, 01, 01, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime Year2000Start = new DateTime(2000, 01, 01, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime Year2020Start = new DateTime(2020, 01, 01, 0, 0, 0, DateTimeKind.Utc);
+
         public static readonly long Year2020StartSecondId = Year2020Start.Ticks / TICKS_TO_SECONDS_DIVIDER;
         public static readonly long Year2020StartMinuteId = Year2020Start.Ticks / TICKS_TO_MINUTES_DIVIDER;
 
@@ -27,15 +29,49 @@ namespace YZ {
         /// <param name="v">total seconds from 1 Jan 1970</param>
         /// <returns>Absolute DateTime</returns>
 
-        public static DateTime FromJan1970(this long seconds) => Year1970Start.AddSeconds(seconds);
-        public static long FromJan1970(this DateTime d) => (long)((d - Year1970Start).TotalSeconds);
+        public enum OffsetTimeUnit { Seconds, Minutes }
+        public static long ToOffsetTimeUnits(this TimeSpan t, OffsetTimeUnit mode) => (long)(mode switch {
+            OffsetTimeUnit.Minutes => t.TotalMinutes,
+            _ => t.TotalSeconds
+        });
+
+        public static long FromJan(this DateTime d, DateTime startOfYear, OffsetTimeUnit mode) => ToOffsetTimeUnits(d - startOfYear, mode);
+        public static long FromJan1970(this DateTime d, OffsetTimeUnit mode) => d.FromJan(Year1970Start, mode);
+        public static long FromJan2000(this DateTime d, OffsetTimeUnit mode) => d.FromJan(Year2000Start, mode);
+        public static long FromJan2020(this DateTime d, OffsetTimeUnit mode) => d.FromJan(Year2020Start, mode);
+
+        public static TimeSpan ToOffsetTimeUnits(this long t, OffsetTimeUnit mode) => mode switch {
+            OffsetTimeUnit.Minutes => TimeSpan.FromMinutes(t),
+            _ => TimeSpan.FromSeconds(t)
+        };
+
+        public static DateTime FromJan(this long units, DateTime startOfYear, OffsetTimeUnit mode) => startOfYear.Add(units.ToOffsetTimeUnits(mode));
+        public static DateTime FromJan1970(this long units, OffsetTimeUnit mode) => units.FromJan(Year1970Start, mode);
+        public static DateTime FromJan2000(this long units, OffsetTimeUnit mode) => units.FromJan(Year2000Start, mode);
+        public static DateTime FromJan2020(this long units, OffsetTimeUnit mode) => units.FromJan(Year2020Start, mode);
+
+        /// <summary>
+        /// Convert Unix timestamp (seconds from 1970-01-01) to datetime (UTC)
+        /// </summary>
+        /// <param name="seconds">Desired Unix Timestamp</param>
+        /// <returns>UTC DateTime value</returns>
+        public static DateTime FromUnixTimestamp(this long seconds) => Year1970Start.AddSeconds(seconds);
+
+        /// <summary>
+        /// Convert DateTime to Unix Timestamp (UTC)
+        /// </summary>
+        /// <param name="time">Desired DateTime</param>
+        /// <returns>Unix Timestamp (UTC)</returns>
+        public static long ToUnixTimestamp(this DateTime time) => (long)(( time.ToUniversalTime() - Year1970Start).TotalSeconds);
 
 
         /// <summary>
-        /// Convert DateTime to number of minutes since mindinght 2019-01-01
+        /// Convert DateTime to number of minutes since mindinght 2020-01-01
         /// </summary>
         /// <param name="d">Desired DateTime</param>
         /// <returns>Number of minutes since mindinght 2020-01-01</returns>
+        /// <seealso cref="FromJan2020"/>
+        [Obsolete($"Use {nameof(FromJan2020)} instead. ")]
         public static long GetMinuteId(this DateTime d) => d.Ticks / TICKS_TO_MINUTES_DIVIDER - Year2020StartMinuteId;
 
         /// <summary>
@@ -43,6 +79,8 @@ namespace YZ {
         /// </summary>
         /// <param name="d">Desired DateTime</param>
         /// <returns>Number of seconds since mindinght 2020-01-01</returns>
+        /// <seealso cref="FromJan2020"/>
+        [Obsolete($"Use {nameof(FromJan2020)} instead. ")]
         public static long GetSecondId(this DateTime d) => d.Ticks / TICKS_TO_SECONDS_DIVIDER - Year2020StartSecondId;
 
         /// <summary>
@@ -50,13 +88,17 @@ namespace YZ {
         /// </summary>
         /// <param name="d">Number of minutes passed from 2020-01-01 00:00:00</param>
         /// <returns>Date and time rounded to minutes</returns>
-        public static DateTime GetDateTimeFromMinuteId(this long d) => Year2020Start + TimeSpan.FromMinutes(d);
+        /// <seealso cref="FromJan2020"/>
+        [Obsolete($"Use {nameof(FromJan2020)} instead. ")]
+        public static DateTimeOffset FromMinuteId(this long d) => Year2020Start + TimeSpan.FromMinutes(d);
         /// <summary>
         /// Converts seconds passed from 2020-01-01 00:00:00 to DateTime
         /// </summary>
         /// <param name="d">Number of seconds passed from 2020-01-01 00:00:00</param>
         /// <returns>Date and time rounded to seconds</returns>
-        public static DateTime GetDateTimeFromSecondId(this long d) => Year2020Start + TimeSpan.FromSeconds(d);
+        /// <seealso cref="FromJan2020"/>
+        [Obsolete($"Use {nameof(FromJan2020)} instead. ")]
+        public static DateTimeOffset FromSecondId(this long d) => Year2020Start + TimeSpan.FromSeconds(d);
 
 
         public static TimeSpan GetOffsetFromGMTString(this string tz) {
@@ -161,6 +203,10 @@ namespace YZ {
 
         public static DateTime StartOfHour(this DateTime src, double addHours = 0) => src.Date.AddHours(src.Hour + addHours);
         public static DateTime EndOfHour(this DateTime src, double addHours = 0) => src.StartOfHour().AddHours(1 + addHours).AddTicks(-1);
+
+        public static DateTime StartOfNthHour(this DateTime src, int n, double addHours = 0) => n <= 0 ? src.Date : src.Date.AddHours((src.Hour / n) * n + addHours);
+        public static DateTime EndOfNthHour(this DateTime src, int n, double addHours = 0) => n <= 0 ? src.Date.EndOfHour() : src.StartOfNthHour(n).AddHours(n + addHours).AddTicks(-1);
+
 
         public static DateTime StartOfHalfHour(this DateTime src, double addHours = 0) => src.Date.AddHours(src.Hour + addHours).AddMinutes(src.Minute >= 30 ? 30 : 0);
         public static DateTime EndOfHalfHour(this DateTime src, double addHours = 0) => src.StartOfHalfHour(addHours).AddMinutes(30).AddTicks(-1);

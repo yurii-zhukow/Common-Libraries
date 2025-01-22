@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <PackageId>YZ.Helpers.Win32</PackageId>
-    <Version>1.0.14</Version>
+    <Version>1.0.16</Version>
     <Authors>Yurii Zhukow</Authors>
     <Company>YZ Works</Company>
     <Title>YZ Helpers for Win32</Title>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/yurii-zhukow/Common-Libraries</RepositoryUrl>
     <Description>This package contains Win32 related Helpers.</Description>
-    <Copyright>YZ Works (C) 2021</Copyright>
+    <Copyright>YZ Works (C) 2023</Copyright>
     <ReadMeMdUrl>https://github.com/yurii-zhukow/Common-Libraries/tree/master/YZ.Helpers.Win32/Readme.md</ReadMeMdUrl>
     <IncludeSource>true</IncludeSource>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

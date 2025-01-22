@@ -8,6 +8,8 @@ using System.Text.Json.Serialization;
 
 using Microsoft.VisualBasic.CompilerServices;
 
+using Newtonsoft.Json.Linq;
+
 using YZ;
 
 namespace YZ {
@@ -35,7 +37,8 @@ namespace YZ {
             if (start.CompareTo(stop) <= 0) {
                 Start = start;
                 Stop = stop;
-            } else {
+            }
+            else {
                 Stop = start;
                 Start = stop;
             }
@@ -115,7 +118,7 @@ namespace YZ {
         public bool IntersectsWith(Range<T> other) => other.Start.CompareTo(Stop) <= 0 && other.Stop.CompareTo(Start) >= 0;
         public bool FullyContains(Range<T> other) => other.Start.CompareTo(Start) >= 0 && other.Stop.CompareTo(Stop) <= 0;
 
-        public bool Contains(T other) => other.CompareTo(Start) >= 0 && other.CompareTo(Stop) <= 0;
+        public virtual bool Contains(T other) => other.CompareTo(Start) >= 0 && other.CompareTo(Stop) <= 0;
 
         public Range<T> Constraint(T min, T max) => new Range<T>(this.Start.CompareTo(min) < 0 ? min : this.Start, this.Stop.CompareTo(max) > 0 ? max : this.Stop);
         public Range<T> Constraint(Range<T> limit) => Constraint(limit.Start, limit.Stop);
@@ -245,6 +248,9 @@ namespace YZ {
         protected override int Succ(int value) => value + 1;
         public override List<int> ToList() => Start >= Stop ? new List<int> { Start } : Enumerable.Range(Start, Stop - Start + 1).ToList();
 
+        public static IntRange[] Recombine(params int[] value) => value.Length == 0 ? Array.Empty<IntRange>() : value.Select(t => new IntRange(t, t + 1)).Recombine<int, IntRange>(t => new IntRange(t.Start, t.Stop - 1)).ToArray();
+        public static IntRange[] Recombine(IEnumerable<IntRange> values) => values?.Any() != true ? Array.Empty<IntRange>() : values.Select(t => new IntRange(t.Start, t.Stop + 1)).Recombine<int, IntRange>(t => new IntRange(t.Start, t.Stop - 1)).ToArray();
+
         public int TakeFirst(out IEnumerable<IntRange> left) {
             left = Start == Stop ? new IntRange[0] : (this - Start).Select(t => new IntRange(t)).ToArray();
             return Start;
@@ -268,7 +274,7 @@ namespace YZ {
             items = new List<IntRange> { init };
         }
         public IntRangeSet(IEnumerable<IntRange> init) : this() {
-            items = IntRange.Recombine(init).Select(t => new IntRange(t)).ToList();
+            items = IntRange.Recombine(init).ToList();
         }
         public bool Any => items?.Any() ?? false;
 
@@ -281,6 +287,7 @@ namespace YZ {
         Random rnd = null;
         public List<IntRange> ToList() => items ?? new List<IntRange>();
         public void Add(int item) {
+            if (items.Any(t => t.Contains(item))) return;
             items = items.Concat(new[] { new IntRange(item) }).Recombine((Range<int> t) => new IntRange(t)).ToList();
         }
         public void AddRange(IntRange t) {
@@ -293,6 +300,10 @@ namespace YZ {
             items = items.Take(x).Concat(left).Concat(items.Skip(x + 1)).ToList();
             return res;
         }
+
+        public static implicit operator IntRangeSet(IntRange[] src) => new IntRangeSet(src);
+        public static implicit operator IntRangeSet(List<IntRange> src) => new IntRangeSet(src);
+
     }
 
 
@@ -320,7 +331,7 @@ namespace YZ {
             return d1 <= e && d2 <= e;
         }
 
-        public IEnumerable<DateRange> SplitByDay() {
+        public DateRange[] SplitByDay() {
             if (this.Start.Date == this.Stop.Date) return new[] { this };
             var n = (int)((this.Stop.Date - this.Start.Date).TotalDays);
             var res = new DateRange[n + 1];
@@ -333,25 +344,25 @@ namespace YZ {
             return res;
         }
 
-        public IEnumerable<DateRange> SplitByMonth() => SplitByDay().GroupBy(t => t.Start.StartOfMonth()).SelectMany(Recombine).Select(t => (DateRange)t).ToList();
-        public IEnumerable<DateRange> SplitByYear() => SplitByMonth().GroupBy(t => t.Start.StartOfYear()).SelectMany(Recombine).Select(t => (DateRange)t).ToList();
+        public DateRange[] SplitByMonth() => SplitByDay().GroupBy(t => t.Start.StartOfMonth()).SelectMany(Recombine).Select(t => (DateRange)t).ToArray();
+        public DateRange[] SplitByYear() => SplitByMonth().GroupBy(t => t.Start.StartOfYear()).SelectMany(Recombine).Select(t => (DateRange)t).ToArray();
 
 
-        public IEnumerable<DateRange> SplitByHour() {
-            if (Start.EndOfHour() == Stop.EndOfHour()) return new[] { this };
-            var t = Start.EndOfHour().AddTicks(1);
-            return new[] { new DateRange(Start, t) }.Concat(new DateRange(t, Stop).SplitByHour());
+        public DateRange[] SplitByHour() {
+            var t = Start.EndOfHour();
+            if (t == Stop.EndOfHour()) return new[] { this };
+            return (new DateRange(t.AddTicks(1), Stop).SplitByHour()).Prepend(new DateRange(Start, t)).ToArray();
         }
-        public IEnumerable<DateRange> SplitByHalfHour() {
-            if (Start.EndOfHalfHour() == Stop.EndOfHalfHour()) return new[] { this };
-            var t = Start.EndOfHalfHour().AddTicks(1);
-            return new[] { new DateRange(Start, t) }.Concat(new DateRange(t, Stop).SplitByHalfHour());
+        public DateRange[] SplitByHalfHour() {
+            var t = Start.EndOfHalfHour();
+            if (t == Stop.EndOfHalfHour()) return new[] { this };
+            return (new DateRange(t.AddTicks(1), Stop).SplitByHalfHour()).Prepend(new DateRange(Start, t)).ToArray();
         }
 
-        public IEnumerable<DateRange> SplitByQuarterHour() {
-            if (Start.EndOfQuarterHour() == Stop.EndOfQuarterHour()) return new[] { this };
-            var t = Start.EndOfQuarterHour().AddTicks(1);
-            return new[] { new DateRange(Start, t) }.Concat(new DateRange(t, Stop).SplitByQuarterHour());
+        public DateRange[] SplitByQuarterHour() {
+            var t = Start.EndOfQuarterHour();
+            if (t == Stop.EndOfQuarterHour()) return new[] { this };
+            return (new DateRange(t.AddTicks(1), Stop).SplitByQuarterHour()).Prepend(new DateRange(Start, t)).ToArray();
         }
 
         public IEnumerable<DateRange> SplitByPoints(IEnumerable<DateTime> pts) {

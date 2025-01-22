@@ -16,12 +16,12 @@ namespace YZ {
     public static partial class Helpers {
 
         public static string ExePath => System.Reflection.Assembly.GetExecutingAssembly().Location;
-        public static string AppDir => System.IO.Path.GetDirectoryName(ExePath);
+        public static string AppDir => System.IO.Path.GetDirectoryName( ExePath );
 
-        public static string GetFullAppPath(this string relativePath) => Path.GetFullPath(relativePath, AppDir);
+        public static string GetFullAppPath( this string relativePath ) => Path.GetFullPath( relativePath.Replace( '\\', Path.DirectorySeparatorChar ), AppDir );
 
         static CultureInfo ru = null;
-        public static CultureInfo RU => ru ??= new CultureInfo("ru");
+        public static CultureInfo RU => ru ??= new CultureInfo( "ru" );
         public static CultureInfo EN => CultureInfo.InvariantCulture;
 
     }

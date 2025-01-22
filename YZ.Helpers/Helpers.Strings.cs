@@ -25,6 +25,19 @@ namespace YZ {
             return res.Constraint(min, max, outrangeDefault);
         }
 
+        public static long AsLong(this string s, long? min = null, long? max = null, long? outrangeDefault = null) {
+            var res = outrangeDefault ?? min ?? max ?? 0;
+
+            while (true) {
+                s = Regex.Replace(s ?? "", "[^0-9\\-]+", "");
+                if (String.IsNullOrWhiteSpace(s)) if (outrangeDefault.HasValue) return outrangeDefault.Value; else break;
+                try { res = System.Convert.ToInt64(s); } catch { if (outrangeDefault.HasValue) return outrangeDefault.Value; }
+                break;
+            }
+
+            return res.Constraint(min, max, outrangeDefault);
+        }
+
         public static double AsDouble(this string s, double? min = null, double? max = null, double? outrangeDefault = null) {
             var res = outrangeDefault ?? min ?? max ?? 0.0;
 

@@ -124,7 +124,7 @@ namespace YZ {
         /// </summary>
         /// <param name="data">Source UTF8 string  to be encrypted</param>
         /// <returns>Encrypted binary data</returns>
-        public string EncryptString(string data) => Encoding.ASCII.GetString(Encrypt(Encoding.UTF8.GetBytes(data)));
+        public string EncryptString(string data) => Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(data)));
         /// <summary>
         /// Decrypts binary encrypted raw data
         /// </summary>
@@ -142,7 +142,7 @@ namespace YZ {
         /// </summary>
         /// <param name="data">UTF8-string</param>
         /// <returns>decoded data as UTF8 string</returns>
-        public string DecryptString(string data) => DecryptString(Encoding.UTF8.GetBytes(data));
+        public string DecryptString(string data) => DecryptString(Convert.FromBase64String(data));
     }
 
 }

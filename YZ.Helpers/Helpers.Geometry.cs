@@ -83,6 +83,9 @@ namespace YZ {
             return shape.Count() >= 3 && shape.Aggregate((inside: false, prev: shape.Last()), (acc, p) => ((p.Y < pt.Y && acc.prev.Y >= pt.Y) || acc.prev.Y < pt.Y && p.Y >= pt.Y) && p.X + (pt.Y - p.Y) / (acc.prev.Y - p.Y) * (acc.prev.X - p.X) < pt.X ? (!acc.inside, p) : (acc.inside, p)).inside;
         }
 
+
+
+
     }
 
 }
