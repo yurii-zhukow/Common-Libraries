@@ -1,9 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using YZ;
 
-namespace YZ.Geo {
+namespace YZ {
+    public class AngleJsonConverter : JsonConverter<Angle> {
+        public override Angle Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options ) => Angle.Parse( reader.GetString() );
+        public override void Write( Utf8JsonWriter writer, Angle angleValue, JsonSerializerOptions options ) => writer.WriteStringValue( angleValue.ToString() );
+    }
+
+    [JsonConverter( typeof( AngleJsonConverter ) )]
+
     public struct Angle {
         const double epsilon = 0.00001;
 
@@ -12,6 +21,7 @@ namespace YZ.Geo {
         public static readonly Angle Deg180 = new(180);
         public static readonly Angle Deg270 = new(270);
         public static readonly Angle Pi = Deg180;
+        public static readonly Angle Epsilon = new(epsilon);
 
 
         Angle( double deg ) => Degrees = Tools.NormalizeDeg( deg );
@@ -25,7 +35,7 @@ namespace YZ.Geo {
         public static bool operator !=( Angle a, Angle b ) => Math.Abs( a.Degrees - b.Degrees ) > epsilon;
         public static bool operator <( Angle a, Angle b ) => Math.Abs( a.Degrees ) < Math.Abs( b.Degrees ) - epsilon;
         public static bool operator >( Angle a, Angle b ) => Math.Abs( a.Degrees ) > Math.Abs( b.Degrees ) + epsilon;
-        public bool IsSame( Angle b, Angle maxDiff ) => Math.Abs( Diff( this, b ).Degrees ) <= Math.Abs( maxDiff.Degrees );
+        public bool IsSame( Angle b, Angle? maxDiff = null ) => Math.Abs( Diff( this, b ).Degrees ) <= Math.Abs( maxDiff?.Degrees ?? epsilon );
         public Angle RoundTo( Angle step ) => FromDegrees( Degrees.RoundTo( step.Degrees ) );
 
         public static Angle Average( params Angle[] a ) => a.Length == 0 ? new Angle( 0 ) : a.Length == 1 ? a[ 0 ] : Average( a.Select( t => t.Radians ).ToArray() );
@@ -36,8 +46,12 @@ namespace YZ.Geo {
         }
         public override bool Equals( object that ) => that is Angle a && a == this;
         public override int GetHashCode() => Degrees.GetHashCode();
-        public override string ToString() {
-            return $"{Degrees:0.000} deg";
+        public override string ToString() => $"{Degrees:# ##0.###} deg".Trim();
+
+        public static Angle Parse( string s ) {
+            var units = s.EndsWith("deg") ? "deg" : "rad";
+            var v = s.AsDouble();
+            return s.EndsWith( "deg" ) ? FromDegrees( v ) : FromRadians( v );
         }
     }
 

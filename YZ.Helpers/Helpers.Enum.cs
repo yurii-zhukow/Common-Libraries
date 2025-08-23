@@ -56,6 +56,8 @@ namespace YZ {
         }
 
 
+
+
         public static TResult[] GetEnumAttrs<TEnumType, TAttr, TResult>(this TEnumType value, bool inherit, Func<TAttr, TResult> fn) where TEnumType : Enum, IConvertible where TAttr : Attribute => value.GetEnumAttrs<TEnumType, TAttr>(inherit).Select(fn).ToArray();
         public static TAttr[] GetEnumAttrs<TEnumType, TAttr>(this TEnumType value, bool inherit) where TEnumType : Enum, IConvertible where TAttr : Attribute {
             var type = typeof(TEnumType);

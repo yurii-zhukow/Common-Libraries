@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace YZ.Geo {
+namespace YZ {
 
 
     public class GeoDistanceJsonConverter : JsonConverter {
@@ -25,6 +25,8 @@ namespace YZ.Geo {
         public readonly double Mi => Meters / 1609.34;
 
         public static GeoDistance operator /( GeoDistance a, double b ) => new( a.Meters / b );
+        public static Speed operator /( GeoDistance a, TimeSpan b ) => Speed.FromMetersPerSecond( a.Meters / b.TotalSeconds );
+
         public static GeoDistance operator *( GeoDistance a, double b ) => new( a.Meters * b );
         public static GeoDistance operator +( GeoDistance a, GeoDistance b ) => new( a.Meters + b.Meters );
         public static GeoDistance operator -( GeoDistance a, GeoDistance b ) => new( a.Meters - b.Meters );

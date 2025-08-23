@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 using YZ;
 
-namespace YZ.Geo {
+namespace YZ {
     public struct GpsInfo {
         public readonly GeoCoord Position;
         public readonly double Speed;

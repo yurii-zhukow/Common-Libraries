@@ -86,5 +86,11 @@ namespace YZ {
 
     [Flags] public enum GetDescriptionMode { Brief = 1, Full = 2, BriefOrFull = 3 }
 
+    public enum SpeedUnits {
+        [Suffix("m/s"),  Normalize(1,1)]                MetersPerSecond,
+        [Suffix("km/h"), Normalize(0.277778,3.6)]       KilometersPerHour,
+        [Suffix("kn/h"), Normalize(0.514444,1.94384)]   KnotsPerHour,
+        [Suffix("mph"),  Normalize(0.44704,2.23694)]    MilesPerHour
+    };
 
 }

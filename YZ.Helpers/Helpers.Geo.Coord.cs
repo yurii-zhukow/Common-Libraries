@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Linq;
-
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using YZ;
 
-namespace YZ.Geo {
-    [Serializable/*, JsonConverter(typeof(GeoCoordJsonConverter))*/]
+namespace YZ {
+
+    public class GeoCoordJsonConverter : JsonConverter<GeoCoord> {
+        public override GeoCoord Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options ) => GeoCoord.Parse( reader.GetString() );
+        public override void Write( Utf8JsonWriter writer, GeoCoord angleValue, JsonSerializerOptions options ) => writer.WriteStringValue( angleValue.ToString() );
+    }
+
+    [JsonConverter( typeof( GeoCoordJsonConverter ) )]
     public struct GeoCoord {
         public GeoCoord( (double lat, double lon) src ) : this( src.lat, src.lon ) { }
-
-        [JsonConstructor]
-        public GeoCoord( string latLon ) : this( Parse( latLon ) ) { }
 
         public GeoCoord( double lat, double lon ) {
             Lat = lat;
@@ -27,15 +30,15 @@ namespace YZ.Geo {
 
         public static implicit operator string( GeoCoord a ) => $"{a.Lat:0.0000###}, {a.Lon:0.0000###}";
 
-        public static implicit operator GeoCoord( string a ) => FromString( a );
-        public static GeoCoord FromString( string latLon ) => new GeoCoord( latLon );
+        public static implicit operator GeoCoord( string a ) => Parse( a );
         public GeoCoord Constraint( GeoCoord? min = null, GeoCoord? max = null ) => new( Lat.Constraint( min?.Lat, max?.Lat ), Lon.Constraint( min?.Lon, max?.Lon ) );
 
-        public static (double lat, double lon) Parse( string latNon ) {
+        public static GeoCoord Parse( string latNon ) {
             var t = latNon?.Split(',').Take(2).Select(t => t.Trim().AsDouble()) ?? Array.Empty<double>();
-            if ( t.Count() < 2 ) return (0.0, 0.0);
-            return (t.First(), t.Last());
+            if ( t.Count() < 2 ) return new( 0.0, 0.0 );
+            return new( t.First(), t.Last() );
         }
+
         public static GeoCoord operator +( GeoCoord coord, GeoOffset offs ) => Tools.Translate( coord, offs );
         public static GeoCoord operator -( GeoCoord coord, GeoOffset offs ) => Tools.Translate( coord, -offs );
         public static GeoOffset operator -( GeoCoord a, GeoCoord b ) => new( new GeoCoord( a.Lat - b.Lat, a.Lon - b.Lon ) );
@@ -51,6 +54,12 @@ namespace YZ.Geo {
 
         public override string ToString() => $"{Lat:0.0000###}, {Lon:0.0000###}";
 
+        public override bool Equals( object that ) => that is GeoCoord a && a == this;
+        public override int GetHashCode() {
+            unchecked {
+                return Lat.GetHashCode() * 397 ^ Lon.GetHashCode();
+            }
+        }
     }
 
 }

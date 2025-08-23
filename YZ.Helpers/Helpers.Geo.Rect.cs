@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace YZ.Geo {
+namespace YZ {
     [Serializable]
     public struct GeoRect : IEquatable<GeoRect> {
         [JsonConstructor]

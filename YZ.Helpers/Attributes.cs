@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+using static YZ.Helpers;
+
 namespace YZ {
 
 
@@ -13,7 +15,7 @@ namespace YZ {
 
         public double Tolerance { get; set; }
 
-        public ToleranceAttribute(double tolerance = 0.0) {
+        public ToleranceAttribute( double tolerance = 0.0 ) {
             this.Tolerance = tolerance;
         }
 
@@ -21,7 +23,7 @@ namespace YZ {
 
     public class ConsoleColorAttribute : Attribute {
         public ConsoleColor Color { get; }
-        public ConsoleColorAttribute(ConsoleColor color) { Color = color; }
+        public ConsoleColorAttribute( ConsoleColor color ) { Color = color; }
 
     }
 
@@ -29,7 +31,7 @@ namespace YZ {
 
         public bool DeepCopy { get; set; }
 
-        public DeepCopyAttribute(bool deepCopy = true) {
+        public DeepCopyAttribute( bool deepCopy = true ) {
             this.DeepCopy = deepCopy;
         }
 
@@ -44,7 +46,7 @@ namespace YZ {
             set { editable = value; }
         }
 
-        public EditableAttribute(bool editable = true) {
+        public EditableAttribute( bool editable = true ) {
             this.editable = editable;
         }
 
@@ -54,7 +56,7 @@ namespace YZ {
 
         public string BriefDescription { get; set; }
 
-        public BriefDescriptionAttribute(string value = "") {
+        public BriefDescriptionAttribute( string value = "" ) {
             BriefDescription = value;
         }
 
@@ -64,10 +66,24 @@ namespace YZ {
 
     }
 
+    public class SuffixAttribute : Attribute {
+
+        public string Suffix { get; set; }
+
+        public SuffixAttribute( string suffix = "" ) {
+            Suffix = suffix;
+        }
+
+        public override string ToString() {
+            return Suffix;
+        }
+
+    }
+
 
     public class SeverityAttribute : Attribute {
         public Severity Severity { get; set; }
-        public SeverityAttribute(Severity severity) {
+        public SeverityAttribute( Severity severity ) {
             Severity = severity;
         }
 
@@ -77,7 +93,7 @@ namespace YZ {
 
     public class IsFatalAttribute : Attribute {
         public bool IsFatal { get; }
-        public IsFatalAttribute(bool isFatal) => IsFatal = isFatal;
+        public IsFatalAttribute( bool isFatal ) => IsFatal = isFatal;
         public IsFatalAttribute() => IsFatal = true;
     }
 
@@ -92,6 +108,22 @@ namespace YZ {
     //    }
 
     //}
+
+
+    public class NormalizeAttribute : Attribute {
+        public NormalizeAttribute( double to = 1, double from = 1 ) {
+            To = to;
+            From = from;
+        }
+
+        public double To { get; } = 1;
+        public double From { get; } = 1;
+
+        public double NormalizeTo( double value ) => value * To;
+        public double NormalizeFrom( double value ) => value * From;
+
+    }
+
 
 
 }

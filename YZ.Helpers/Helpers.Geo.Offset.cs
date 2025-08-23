@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YZ.Geo {
+namespace YZ {
     public struct GeoOffset : IComparable<GeoOffset> {
 
         public GeoOffset( GeoDistance lat, GeoDistance lon ) {
