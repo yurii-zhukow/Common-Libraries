@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace YZ {
 
     [Serializable]
-    public struct GeoLine : IEquatable<GeoLine> {
+    public readonly struct GeoLine : IEquatable<GeoLine> {
         [JsonConstructor]
         public GeoLine( GeoCoord startPoint, GeoCoord endPoint ) {
             StartPoint = startPoint;
@@ -15,7 +15,7 @@ namespace YZ {
         public readonly GeoCoord EndPoint;
 
         [JsonIgnore]
-        public GeoDistance Length => Offset.Distance;
+        public readonly GeoDistance Length => Offset.Distance;
         [JsonIgnore]
         public readonly double Meters => Length.Meters;
         [JsonIgnore]
@@ -23,17 +23,22 @@ namespace YZ {
         [JsonIgnore]
         public readonly double Mi => Length.Meters / 1609.34;
         [JsonIgnore]
-        public GeoOffset Offset => EndPoint - StartPoint;
+        public readonly GeoOffset Offset => EndPoint - StartPoint;
         [JsonIgnore]
-        public Angle Angle => Offset.Target;
+        public readonly Angle Angle => Offset.Target;
 
 
-        public (double A, double B, double C) GetABC() {
-            var A = EndPoint.Lat - StartPoint.Lat;
-            var B = StartPoint.Lon - EndPoint.Lon;
-            var C = A * StartPoint.Lon + B * StartPoint.Lat;
-            return (A, B, C);
+        /// <summary>
+        /// Прямая через две точки: A·x + B·y = C, где x = Lon, y = Lat
+        /// </summary>
+        /// <returns>Коэффициенты A,B,C</returns>
+        public readonly (double A, double B, double C) GetABC() {
+            var a = EndPoint.Lat - StartPoint.Lat;      // A = y2 - y1
+            var b = StartPoint.Lon - EndPoint.Lon;      // B = x1 - x2
+            var c = a * StartPoint.Lon + b * StartPoint.Lat; // C = A·x1 + B·y1
+            return (a, b, c);
         }
+       
         public GeoCoord GetProjection( GeoCoord p ) {
             var m = (EndPoint.Lon - StartPoint.Lon) / (EndPoint.Lat - StartPoint.Lat);
             var b = StartPoint.Lon - m * StartPoint.Lat;
@@ -41,12 +46,12 @@ namespace YZ {
             var lon = (m * m * p.Lon + m * p.Lat + b) / (m * m + 1);
             return new( lat, lon );
         }
-        public bool IsProjected( GeoCoord p ) {
+        public readonly bool IsProjected( GeoCoord p ) {
             var res = GetProjection(p);
             if ( !res.IsValid ) return false;
             return StartPoint - res < Length && EndPoint - res < Length;
         }
-        public GeoDistance DistanceTo( GeoCoord p ) {
+        public readonly GeoDistance DistanceTo( GeoCoord p ) {
             var proj = GetProjection(p);
             var isProj = proj.IsValid && StartPoint - proj < Length && EndPoint - proj < Length;
             if ( isProj ) return p - proj;
