@@ -42,7 +42,7 @@ namespace YZ {
             var (A1, B1, C1) = a.GetABC();
             var (A2, B2, C2) = b.GetABC();
             var det = A1 * B2 - A2 * B1;
-            return Math.Abs( det ) < EPSILON ? a.EndPoint & b.EndPoint : new( ( A1 * C2 - A2 * C1 ) / det, ( B2 * C1 - B1 * C2 ) / det );
+            return Math.Abs( det ) < EPSILON ? a.End & b.End : new( ( A1 * C2 - A2 * C1 ) / det, ( B2 * C1 - B1 * C2 ) / det );
         }
     }
 }

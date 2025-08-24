@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
@@ -59,6 +60,8 @@ namespace YZ {
         public readonly bool IsSame( Speed b, Speed? maxDiff = null ) => Math.Abs( Diff( this, b ).MetersPerSecond ) <= Math.Abs( maxDiff?.MetersPerSecond ?? epsilon );
         public readonly Speed RoundTo( Speed step ) => FromMetersPerSecond( MetersPerSecond.RoundTo( step.MetersPerSecond ) );
 
+        public static Speed Average( IEnumerable<Speed> spd ) => !spd.Any() ? Zero: spd.Count() == 1 || spd.All( t => t == 0 ) ? spd.First() : new( spd.Sum( t => t.MetersPerSecond ) / spd.Count( t => t > 0 ) );
+        public static Speed Average( params Speed[] spd ) => spd.Length == 0 ? Zero : spd.Length == 1 || spd.All( t => t == 0 ) ? spd[ 0 ] : new( spd.Sum( t => t.MetersPerSecond ) / spd.Count( t => t > 0 ) );
         public static Speed Average( params (Speed spd, GeoDistance dist)[] a ) => a.Length == 0 ? new Speed( 0 ) : a.Length == 1 ? a[ 0 ].spd : a.Where( t => t.spd > 0 ).Sum( t => t.dist ) / a.Where( t => t.spd > 0 ).Sum( t => t.dist / t.spd );
         public static Speed Average( params (Speed spd, TimeSpan time)[] a ) => a.Length == 0 ? new Speed( 0 ) : a.Length == 1 ? a[ 0 ].spd : a.Sum( t => t.time * t.spd ) / a.Sum( t => t.time );
         public static Speed Diff( Speed a, Speed b ) => new Speed( Math.Abs( a.MetersPerSecond - b.MetersPerSecond ) );

@@ -17,13 +17,13 @@ namespace YZ {
 
 
         static IEnumerable<GeoCoord> intersectAndCut( GeoLine a, GeoLine b ) {
-            if ( a.Angle == b.Angle ) return new[] { a.EndPoint, b.StartPoint };
+            if ( a.Angle == b.Angle ) return new[] { a.End, b.Start };
             var x = Tools.Intersect(a, b);
 
-            if ( a.StartPoint - x > a.Length || a.EndPoint - x > a.Length || b.StartPoint - x > b.Length || b.EndPoint - x > b.Length ) return new[] { a.EndPoint, b.StartPoint };
+            if ( a.Start - x > a.Length || a.End - x > a.Length || b.Start - x > b.Length || b.End - x > b.Length ) return new[] { a.End, b.Start };
 
-            //return new[] { a.EndPoint, b.StartPoint };
-            return new[] { x };
+            //return new[] { a.End, b.Start };
+            return [x];
         }
 
         public static GeoDistance Sum( this IEnumerable<GeoDistance> distances ) => distances?.Any() == true ? GeoDistance.FromMeters( distances.Select( t => t.Meters ).Sum() ) : GeoDistance.Zero;
@@ -32,10 +32,10 @@ namespace YZ {
         public static IEnumerable<GeoCoord> MakePath( this IEnumerable<GeoLine> src ) {
             if ( src?.Any() != true ) return Enumerable.Empty<GeoCoord>();
             var first = src.First();
-            if ( src.Count() == 1 ) return new[] { first.StartPoint, first.EndPoint };
+            if ( src.Count() == 1 ) return new[] { first.Start, first.End };
             var last = src.Last();
             var inner = src.SkipLast(1).Zip(src.Skip(1)).SelectMany(t => intersectAndCut(t.First, t.Second));
-            return new[] { first.StartPoint }.Concat( inner ).Append( last.EndPoint ).ToList();
+            return new[] { first.Start }.Concat( inner ).Append( last.End ).ToList();
         }
 
         public static GeoRect GetViewport( this IEnumerable<GeoCoord> all ) {

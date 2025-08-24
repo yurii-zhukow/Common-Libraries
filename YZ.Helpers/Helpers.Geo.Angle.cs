@@ -40,7 +40,7 @@ namespace YZ {
         public bool IsSame( Angle b, Angle? maxDiff = null ) => Math.Abs( Diff( this, b ).Degrees ) <= Math.Abs( maxDiff?.Degrees ?? epsilon );
         public Angle RoundTo( Angle step ) => FromDegrees( Degrees.RoundTo( step.Degrees ) );
         static double[] rad( params ReadOnlySpan<Angle> a ) => a.Length == 1 ? [ a[ 0 ].Radians ] : a.Length == 0 ? [] : [ .. a.ToArray().Select( t => t.Radians ) ];
-        static Angle avg( IEnumerable<double> rad ) => rad?.Any() ?? false ? rad.Count() == 1 ? FromRadians( rad.First() ) : FromRadians( Math.Atan2( rad.Sum( Math.Sin ) / rad.Count(), rad.Sum( Math.Cos ) / rad.Count() ) );
+        static Angle avg( IEnumerable<double> rad ) => ( rad?.Any() ?? false ) ? rad.Count() == 1 ? FromRadians( rad.First() ) : FromRadians( Math.Atan2( rad.Sum( Math.Sin ) / rad.Count(), rad.Sum( Math.Cos ) / rad.Count() ) ) : Zero;
 
         public static Angle Average( IEnumerable<Angle> a ) => ( a?.Any() ?? false ) ? avg( a.Select( t => t.Radians ) ) : Zero;
         public static Angle Average( params ReadOnlySpan<Angle> a ) => a.Length == 1 ? a[ 0 ] : a.Length == 0 ? Zero : avg( rad( a ) );
