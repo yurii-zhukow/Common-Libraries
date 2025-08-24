@@ -8,52 +8,22 @@ using Newtonsoft.Json;
 using YZ;
 
 namespace YZ {
-    public struct GpsInfo {
-        public readonly GeoCoord Position;
-        public readonly double Speed;
-        public readonly double Acceleration;
+    public readonly record struct GpsInfo( DateTimeOffset Date, GeoCoord Position, Speed Speed, Angle Angle, bool IsValid, bool IsVirtual, string Label = "", TimeSpan Duration = default ) {
 
-        [JsonProperty(nameof(Angle))]
-        public readonly double AngleDeg;
-        [JsonIgnore]
-        public readonly Angle Angle;
+        public GpsInfo OffsetTime( TimeSpan offset ) => new( Date + offset, Position, Speed, Angle, IsValid, IsVirtual, Label, Duration );
 
-        public readonly DateTime Date;
-        [JsonProperty("Valid")]
-        public readonly bool IsValid;
-        [JsonProperty("Virtual")]
-        public readonly bool IsVirtual;
-
-        [JsonIgnore]
-        public readonly string Label;
-        [JsonIgnore]
-        public readonly TimeSpan Duration;
-
-        public GpsInfo( GeoCoord position, double speed, double acceleration, Angle angle, bool isValid, bool isVirtual, DateTime? date = null, string label = "", TimeSpan duration = default ) : this() {
-            Position = position;
-            Speed = speed;
-            Angle = angle;
-            AngleDeg = angle.Degrees;
-            Acceleration = acceleration;
-            IsValid = isValid;
-            IsVirtual = isVirtual;
-            Date = date ?? DateTime.Now;
-            Label = label;
-            Duration = duration;
-        }
-        public GpsInfo OffsetTime( TimeSpan offset ) => new( Position, Speed, Acceleration, Angle, IsValid, IsVirtual, Date + offset, Label, Duration );
-
-        public override string ToString() => $"{Date:g} [{Position}] {Speed:0.0} km/h | {AngleDeg} deg | {( IsValid ? "Valid" : "Invalid" )}{( IsVirtual ? " Virtual" : "" )}";
+        public override string ToString() => $"{Date:g} [{Position}] {Speed} | {Angle} | {( IsValid ? "Valid" : "Invalid" )}{( IsVirtual ? " Virtual" : "" )}";
 
         public static (GeoDistance Distance, TimeSpan Time) operator -( GpsInfo a, GpsInfo b ) => (Distance: a.Position - b.Position, Time: a.Date - b.Date);
 
         const double deg2rad = Math.PI / 180.0;
         const double rad2deg = 180.0 / Math.PI;
 
-        static DateTime averageDate( DateTime a, DateTime b ) => a > b ? averageDate( b, a ) : a + ( b - a ) / 2.0;
-        public static GpsInfo Average( GpsInfo a, GpsInfo b ) => new GpsInfo( a.Position & b.Position, ( a.Speed + b.Speed ) / 2.0, ( a.Acceleration + b.Acceleration ) / 2.0, Angle.Average( a.Angle, b.Angle ), a.IsValid && b.IsValid, a.IsVirtual || b.IsVirtual, averageDate( a.Date, b.Date ) );
-        public static GpsInfo Average( GpsInfo[] a ) => ( a?.Length ?? 0 ) > 1 ? new GpsInfo( GeoCoord.Average( a.Select( t => t.Position ).ToArray() ), a.Sum( t => t.Speed ) / a.Length, a.Sum( t => t.Acceleration ) / a.Length, a.OrderByDescending( t => t.Date ).First().Angle, a.All( t => t.IsValid ), a.Any( t => t.IsVirtual ), a.Min( t => t.Date ), a.ToString( "; ", t => t.Label ), a.Max( t => t.Date ) - a.Min( t => t.Date ) ) : ( a?.Length ?? 0 ) == 1 ? a[ 0 ] : new GpsInfo();
-        public GpsInfo Copy( GeoCoord? position = null, double? speed = null, double? acceleration = null, Angle? angle = null, bool? isValid = null, bool? isVirtual = null, DateTime? date = null, string label = null, TimeSpan? duration = null ) => new( position ?? Position, speed ?? Speed, acceleration ?? Acceleration, angle ?? Angle, isValid ?? IsValid, isVirtual ?? IsVirtual, date ?? Date, label ?? Label, duration ?? Duration );
+        static DateTimeOffset averageDate( DateTimeOffset a, DateTimeOffset b ) => a > b ? averageDate( b, a ) : a + ( b - a ) / 2.0;
+        static DateTimeOffset averageDate( IEnumerable<DateTimeOffset> a ) => a.Any() ? averageDate( a.Min(), a.Max() ) : DateTimeOffset.MinValue;
+        public static GpsInfo Average( GpsInfo a, GpsInfo b ) => new( averageDate( a.Date, b.Date ), a.Position & b.Position, ( a.Speed + b.Speed ) / 2.0, Angle.Average( a.Angle, b.Angle ), a.IsValid && b.IsValid, a.IsVirtual || b.IsVirtual );
+        public static GpsInfo Average( IEnumerable<GpsInfo> a ) => ( a?.Count() ?? 0 ) > 1 ? new GpsInfo( averageDate( a.Select( t => t.Date ) ), GeoCoord.Average( a.Select( t => t.Position ).ToArray() ), Speed.Average( a.Select( t => t.Speed ) ), Angle.Average( a.Select( t => t.Angle ) ), a.All( t => t.IsValid ), a.Any( t => t.IsVirtual ), a.Select( t => t.Label ).Distinct().ToString( "; " ), ( a.Max( t => t.Duration ) + a.Min( t => t.Duration ) ) / 2.0 ) : a.FirstOrDefault();
+        public GpsInfo Copy( GeoCoord? position = null, double? speed = null, Angle? angle = null, bool? isValid = null, bool? isVirtual = null, DateTime? date = null, string label = null, TimeSpan? duration = null ) => new( date ?? Date, position ?? Position, speed ?? Speed, angle ?? Angle, isValid ?? IsValid, isVirtual ?? IsVirtual, label ?? Label, duration ?? Duration );
 
         public static GpsInfo Approximate( [NotNull] GpsInfo[] a, DateTime t ) {
             if ( a == null ) throw new ArgumentNullException( nameof( a ) );
@@ -87,17 +57,17 @@ namespace YZ {
 
             if ( offs <= 0 ) return a;
             if ( offs >= 1 ) return b;
+            var offsT = (b.Date - a.Date)/2;
             var spdDelta = b.Speed - a.Speed;
             var spdDeltaA = spdDelta * offs;
             var spdDeltaB = spdDelta - spdDeltaA;
 
             var spdMid = a.Speed + spdDelta * offs;
-            var pthA = (a.Speed + spdDeltaA / 2.0) * offs;
+            var pthA = (a.Speed + spdDeltaA / 2.0) * offsT;
             var pthB = (spdMid + spdDeltaB / 2.0) * (1.0 - offs);
-            var pth = pthB + pthA;
-            var asp = pth > 0 ? pthA / pth : 0;
-
-            return new( GeoCoord.Approximate( a.Position, b.Position, asp ), spdMid, a.Acceleration + ( b.Acceleration - a.Acceleration ) * offs, Angle.Average( a.Angle, b.Angle ), a.IsValid && b.IsValid, true, a.Date + ( b.Date - a.Date ) * offs );
+            var label = new[]{a.Label,b.Label }.Where(t=>!string.IsNullOrEmpty(t)).ToString(" - ");
+            var dur = ( b.Date - a.Date ) * offs;
+            return new( a.Date + dur, GeoCoord.Approximate( a.Position, b.Position, offs ), spdMid, Angle.Average( a.Angle, b.Angle ), a.IsValid && b.IsValid, true, label, dur );
         }
 
         public static IEnumerable<GpsInfo> SplitBy( GpsInfo a, GpsInfo b, TimeSpan t ) {

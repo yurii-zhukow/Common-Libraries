@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -37,9 +39,12 @@ namespace YZ {
         public static bool operator >( Angle a, Angle b ) => Math.Abs( a.Degrees ) > Math.Abs( b.Degrees ) + epsilon;
         public bool IsSame( Angle b, Angle? maxDiff = null ) => Math.Abs( Diff( this, b ).Degrees ) <= Math.Abs( maxDiff?.Degrees ?? epsilon );
         public Angle RoundTo( Angle step ) => FromDegrees( Degrees.RoundTo( step.Degrees ) );
+        static double[] rad( params ReadOnlySpan<Angle> a ) => a.Length == 1 ? [ a[ 0 ].Radians ] : a.Length == 0 ? [] : [ .. a.ToArray().Select( t => t.Radians ) ];
+        static Angle avg( IEnumerable<double> rad ) => rad?.Any() ?? false ? rad.Count() == 1 ? FromRadians( rad.First() ) : FromRadians( Math.Atan2( rad.Sum( Math.Sin ) / rad.Count(), rad.Sum( Math.Cos ) / rad.Count() ) );
 
-        public static Angle Average( params Angle[] a ) => a.Length == 0 ? new Angle( 0 ) : a.Length == 1 ? a[ 0 ] : Average( a.Select( t => t.Radians ).ToArray() );
-        public static Angle Average( params double[] a ) => a.Length == 0 ? new Angle( 0 ) : a.Length == 1 ? FromRadians( a[ 0 ] ) : FromRadians( Math.Atan2( a.Sum( Math.Sin ) / a.Length, a.Sum( Math.Cos ) / a.Length ) );
+        public static Angle Average( IEnumerable<Angle> a ) => ( a?.Any() ?? false ) ? avg( a.Select( t => t.Radians ) ) : Zero;
+        public static Angle Average( params ReadOnlySpan<Angle> a ) => a.Length == 1 ? a[ 0 ] : a.Length == 0 ? Zero : avg( rad( a ) );
+
         public static Angle Diff( Angle a, Angle b ) {
             var r = Math.Abs(a.Degrees - b.Degrees);
             return new( r > 180.0 ? 360.0 - r : r );
