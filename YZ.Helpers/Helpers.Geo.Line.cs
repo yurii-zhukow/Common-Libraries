@@ -5,14 +5,8 @@ using Newtonsoft.Json;
 namespace YZ {
 
     [Serializable]
-    public readonly struct GeoLine : IEquatable<GeoLine> {
-        [JsonConstructor]
-        public GeoLine( GeoCoord startPoint, GeoCoord endPoint ) {
-            StartPoint = startPoint;
-            EndPoint = endPoint;
-        }
-        public readonly GeoCoord StartPoint;
-        public readonly GeoCoord EndPoint;
+    [method: JsonConstructor]
+    public readonly struct GeoLine( GeoCoord StartPoint, GeoCoord EndPoint ) : IEquatable<GeoLine> {
 
         [JsonIgnore]
         public readonly GeoDistance Length => Offset.Distance;
