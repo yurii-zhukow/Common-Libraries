@@ -15,12 +15,12 @@ namespace YZ {
     }
 
     [JsonConverter( typeof( SpeedJsonConverter ) )]
-    public readonly record struct Speed {
-        const double epsilon = 0.00001;
+    public readonly struct Speed {
+        const double epsilon = 0.000001;
         public static readonly Speed Zero = new(0);
         public static readonly Speed MS1 = new(1);
         public static readonly Speed KmPH60 = FromKilometersPerHour(60);
-        public static readonly Speed KmPH90 = FromKilometersPerHour(60);
+        public static readonly Speed KmPH90 = FromKilometersPerHour(90);
         public static readonly Speed Epsilon = new(epsilon);
 
 
@@ -45,8 +45,8 @@ namespace YZ {
         public static implicit operator Speed( double a ) => new( a );
         public static Speed operator -( Speed a, Speed b ) => new( a.MetersPerSecond - b.MetersPerSecond );
         public static Speed operator +( Speed a, Speed b ) => new( a.MetersPerSecond + b.MetersPerSecond );
-        //public static bool operator ==( Speed a, Speed b ) => Math.Abs( a.MetersPerSecond - b.MetersPerSecond ) <= epsilon;
-        //public static bool operator !=( Speed a, Speed b ) => Math.Abs( a.MetersPerSecond - b.MetersPerSecond ) > epsilon;
+        public static bool operator ==( Speed a, Speed b ) => Math.Abs( a.MetersPerSecond - b.MetersPerSecond ) <= epsilon;
+        public static bool operator !=( Speed a, Speed b ) => Math.Abs( a.MetersPerSecond - b.MetersPerSecond ) > epsilon;
         public static bool operator <( Speed a, Speed b ) => Math.Abs( a.MetersPerSecond ) < Math.Abs( b.MetersPerSecond ) - epsilon;
         public static bool operator >( Speed a, Speed b ) => Math.Abs( a.MetersPerSecond ) > Math.Abs( b.MetersPerSecond ) + epsilon;
 
@@ -68,7 +68,8 @@ namespace YZ {
 
 
 
-        //public override readonly bool Equals( object that ) => that is Speed a && a == this;
+        public readonly bool Equals( Speed that ) => Math.Abs( this.MetersPerSecond - that.MetersPerSecond ) <= epsilon;
+        public override readonly bool Equals( object that ) => that is Speed a && Equals( a );
         public override readonly int GetHashCode() => MetersPerSecond.GetHashCode();
         public override readonly string ToString() => $"{normalizeFrom( MetersPerSecond, baseUnits ):# ##0.###} {baseUnits.GetEnumAttr( false, ( v, a ) => a.Suffix, v => new SuffixAttribute( "" ) )}".Trim();
         public static Speed Parse( string src ) {
