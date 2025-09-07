@@ -1,59 +1,63 @@
 ﻿using System;
-
-using Newtonsoft.Json;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace YZ {
 
-
-    public class GeoDistanceJsonConverter : JsonConverter {
-        public override bool CanConvert( Type objectType ) => objectType == typeof( GeoDistance );
-        public override object ReadJson( JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer ) => GeoDistance.FromMeters( reader.Value.SafeCall( Convert.ToDouble, 0.0 ) );
-        public override void WriteJson( JsonWriter writer, object value, JsonSerializer serializer ) => writer.WriteValue( value is GeoDistance g ? g.Meters : 0.0 );
-        public override bool CanRead => true;
-        public override bool CanWrite => true;
+    public class GeoDistanceJsonConverter : JsonConverter<GeoDistance> {
+        public override GeoDistance Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => GeoDistance.Parse(reader.GetString());
+        public override void Write(Utf8JsonWriter writer, GeoDistance distanceValue, JsonSerializerOptions options) => writer.WriteStringValue(distanceValue.ToString());
     }
 
+    [JsonConverter(typeof(GeoDistanceJsonConverter))]
+    public readonly record struct GeoDistance : IComparable<GeoDistance> {
+        const double epsilon = 0.00001;
+        public static readonly GeoDistance Zero = new(0);
 
-    [Serializable, JsonConverter( typeof( GeoDistanceJsonConverter ) )]
-    public struct GeoDistance : IComparable<GeoDistance> {
-        [JsonConstructor]
-        GeoDistance( double meters ) => Meters = meters;
-        public readonly double Meters;
-        [JsonIgnore]
-        public readonly double Km => Meters / 1000.0;
-        [JsonIgnore]
-        public readonly double Mi => Meters / 1609.34;
+        readonly DistanceUnits baseUnits;
+        GeoDistance(double v, DistanceUnits srcUnits = DistanceUnits.Meters) => (Meters, baseUnits) = (normalizeTo(v, srcUnits), srcUnits);
+        public static GeoDistance FromUnits(double value, DistanceUnits units = DistanceUnits.Meters) => new(value, units);
+        public static GeoDistance FromMiles(double miles) => FromUnits(miles, DistanceUnits.Miles);
+        public static GeoDistance FromMeters(double meters) => FromUnits(meters, DistanceUnits.Meters);
+        public static GeoDistance FromKilometers(double kilometers) => FromUnits(kilometers, DistanceUnits.Kilometers);
+        public static GeoDistance FromKm(double km) => FromKilometers(km);
 
-        public static GeoDistance operator /( GeoDistance a, double b ) => new( a.Meters / b );
-        public static Speed operator /( GeoDistance a, TimeSpan b ) => Speed.FromMetersPerSecond( a.Meters / b.TotalSeconds );
+        static double normalizeTo(double valueInUnits, DistanceUnits units) => units.GetEnumAttr(false, v => new NormalizeAttribute(1,1)).NormalizeTo(valueInUnits);
+        static double normalizeFrom(double baseUnits, DistanceUnits units) => units.GetEnumAttr(false, v => new NormalizeAttribute(1,1)).NormalizeFrom(baseUnits);
 
-        public static GeoDistance operator *( GeoDistance a, double b ) => new( a.Meters * b );
-        public static GeoDistance operator +( GeoDistance a, GeoDistance b ) => new( a.Meters + b.Meters );
-        public static GeoDistance operator -( GeoDistance a, GeoDistance b ) => new( a.Meters - b.Meters );
-        public static GeoDistance operator -( GeoDistance a ) => new( -a.Meters );
+        public readonly double Meters { get; }
+        public readonly double Kilometers => normalizeFrom(Meters, DistanceUnits.Kilometers);
+        public readonly double Km => Kilometers;
+        public readonly double Miles => normalizeFrom(Meters, DistanceUnits.Miles);
+        public readonly double Mi => Miles;
 
-        public static bool operator >( GeoDistance a, GeoDistance b ) => Math.Abs( a.Meters ) > Math.Abs( b.Meters );
-        public static bool operator <( GeoDistance a, GeoDistance b ) => Math.Abs( a.Meters ) < Math.Abs( b.Meters );
-        public static bool operator >=( GeoDistance a, GeoDistance b ) => Math.Abs( a.Meters ) >= Math.Abs( b.Meters );
-        public static bool operator <=( GeoDistance a, GeoDistance b ) => Math.Abs( a.Meters ) <= Math.Abs( b.Meters );
-        public static bool operator ==( GeoDistance a, GeoDistance b ) => Math.Abs( a.Meters ) == Math.Abs( b.Meters );
-        public static bool operator !=( GeoDistance a, GeoDistance b ) => Math.Abs( a.Meters ) != Math.Abs( b.Meters );
-        public static GeoDistance FromMeters( double meters ) => new GeoDistance( meters );
-        public static GeoDistance FromKm( double km ) => new GeoDistance( km * 1000.0 );
-        public static readonly GeoDistance Zero = new GeoDistance(0);
+        public static implicit operator GeoDistance(double meters) => FromMeters(meters);
+        public static implicit operator double(GeoDistance d) => d.Meters;
+        public static GeoDistance operator /(GeoDistance a, double b) => FromMeters(a.Meters / b);
+        public static Speed operator /(GeoDistance a, TimeSpan b) => Speed.FromMetersPerSecond(a.Meters / b.TotalSeconds);
+        public static GeoDistance operator *(GeoDistance a, double b) => FromMeters(a.Meters * b);
+        public static GeoDistance operator +(GeoDistance a, GeoDistance b) => FromMeters(a.Meters + b.Meters);
+        public static GeoDistance operator -(GeoDistance a, GeoDistance b) => FromMeters(a.Meters - b.Meters);
+        public static GeoDistance operator -(GeoDistance a) => FromMeters(-a.Meters);
+        public static bool operator >(GeoDistance a, GeoDistance b) => Math.Abs(a.Meters) > Math.Abs(b.Meters) + epsilon;
+        public static bool operator <(GeoDistance a, GeoDistance b) => Math.Abs(a.Meters) < Math.Abs(b.Meters) - epsilon;
+        public static bool operator >=(GeoDistance a, GeoDistance b) => Math.Abs(a.Meters) >= Math.Abs(b.Meters) - epsilon;
+        public static bool operator <=(GeoDistance a, GeoDistance b) => Math.Abs(a.Meters) <= Math.Abs(b.Meters) + epsilon;
+        public static bool operator ==(GeoDistance a, GeoDistance b) => Math.Abs(a.Meters - b.Meters) <= epsilon;
+        public static bool operator !=(GeoDistance a, GeoDistance b) => Math.Abs(a.Meters - b.Meters) > epsilon;
 
-        public int CompareTo( GeoDistance other ) => Math.Abs( Meters ).CompareTo( Math.Abs( other.Meters ) );
+        public int CompareTo(GeoDistance other) => Math.Abs(Meters).CompareTo(Math.Abs(other.Meters));
 
-        public static implicit operator double( GeoDistance d ) => d.Meters;
-        public static implicit operator GeoDistance( double meters ) => new GeoDistance( meters );
-
-        public override bool Equals( object obj ) => obj is GeoDistance d && d.Meters == Meters;
-
+        public override bool Equals(object that) => that is GeoDistance d && d == this;
         public override int GetHashCode() => Meters.GetHashCode();
-        public override string ToString() {
-            return $"{Meters:0.0} m";
+        public override string ToString() => $"{normalizeFrom(Meters, baseUnits):# ##0.###} {baseUnits.GetEnumAttr(false, (v,a) => a.Suffix, v => new SuffixAttribute(""))}".Trim();
+        public static GeoDistance Parse(string src) {
+            src = src.Replace(" ", "").Trim().ToLower();
+            var units = Enum.GetValues<DistanceUnits>().Select(t => (k: t, suffix: t.GetEnumAttr(false, (v,a) => a.Suffix, v => new SuffixAttribute("" )).ToLower())).Where(t => src.EndsWith(t.suffix));
+            var u = units.FirstOrDefault((k: DistanceUnits.Meters, suffix: ""));
+            return new(src.AsDouble(), u.k);
         }
-
     }
-
 }
+

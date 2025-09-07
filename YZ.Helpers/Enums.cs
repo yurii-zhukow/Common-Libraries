@@ -93,4 +93,10 @@ namespace YZ {
         [Suffix("mph"),  Normalize(0.44704,2.23694)]    MilesPerHour
     };
 
+    public enum DistanceUnits {
+        [Suffix("m"),   Normalize(1,1)]                 Meters,
+        [Suffix("km"),  Normalize(1000,0.001)]          Kilometers,
+        [Suffix("mi"),  Normalize(1609.34,0.000621372)] Miles
+    };
+
 }
