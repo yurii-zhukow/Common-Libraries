@@ -49,12 +49,12 @@ namespace YZ {
 
         public int CompareTo(GeoDistance other) => Math.Abs(Meters).CompareTo(Math.Abs(other.Meters));
 
-        public override bool Equals(object that) => that is GeoDistance d && d == this;
+        
         public override int GetHashCode() => Meters.GetHashCode();
         public override string ToString() => $"{normalizeFrom(Meters, baseUnits):# ##0.###} {baseUnits.GetEnumAttr(false, (v,a) => a.Suffix, v => new SuffixAttribute(""))}".Trim();
         public static GeoDistance Parse(string src) {
             src = src.Replace(" ", "").Trim().ToLower();
-            var units = Enum.GetValues<DistanceUnits>().Select(t => (k: t, suffix: t.GetEnumAttr(false, (v,a) => a.Suffix, v => new SuffixAttribute("" )).ToLower())).Where(t => src.EndsWith(t.suffix));
+            var units = Enum.GetValues<DistanceUnits>().Select(t => (k: t, suffix: t.GetEnumAttr(false, (v,a) => a.Suffix, v => new SuffixAttribute("" )).ToLower())).OrderByDescending(t=>t.suffix.Length).Where(t => src.EndsWith(t.suffix));
             var u = units.FirstOrDefault((k: DistanceUnits.Meters, suffix: ""));
             return new(src.AsDouble(), u.k);
         }
