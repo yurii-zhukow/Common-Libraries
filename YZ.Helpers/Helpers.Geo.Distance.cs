@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -54,7 +55,7 @@ namespace YZ {
         public override int GetHashCode() => Math.Round( Meters / epsilon ).GetHashCode();
 
         //public override int GetHashCode() => Meters.GetHashCode();
-        public override string ToString() => $"{normalizeFrom( Meters, baseUnits ):# ##0.###} {baseUnits.GetEnumAttr( false, ( v, a ) => a.Suffix, v => new SuffixAttribute( "" ) )}".Trim();
+        public override string ToString() => $"{normalizeFrom( Meters, baseUnits ).ToString( "##0.###",CultureInfo.InvariantCulture)} {baseUnits.GetEnumAttr( false, ( v, a ) => a.Suffix, v => new SuffixAttribute( "" ) )}".Trim();
         public static GeoDistance Parse( string src ) {
             src = src.Replace( " ", "" ).Trim().ToLower();
             var units = Enum.GetValues<DistanceUnits>().Select(t => (k: t, suffix: t.GetEnumAttr(false, (v,a) => a.Suffix, v => new SuffixAttribute("" )).ToLower())).OrderByDescending(t=>t.suffix.Length).Where(t => src.EndsWith(t.suffix));

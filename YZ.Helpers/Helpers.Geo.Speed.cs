@@ -71,7 +71,8 @@ namespace YZ {
         public readonly bool Equals( Speed that ) => Math.Abs( this.MetersPerSecond - that.MetersPerSecond ) <= epsilon;
         public override readonly bool Equals( object that ) => that is Speed a && Equals( a );
         public override readonly int GetHashCode() => MetersPerSecond.GetHashCode();
-        public override readonly string ToString() => $"{normalizeFrom( MetersPerSecond, baseUnits ):# ##0.###} {baseUnits.GetEnumAttr( false, ( v, a ) => a.Suffix, v => new SuffixAttribute( "" ) )}".Trim();
+        readonly string v2s => normalizeFrom( MetersPerSecond, baseUnits ).ToString( "##0.###", CultureInfo.InvariantCulture );
+        public override readonly string ToString() => $"{v2s} {baseUnits.GetEnumAttr( false, ( v, a ) => a.Suffix, v => new SuffixAttribute( "" ) )}".Trim();
         public static Speed Parse( string src ) {
             src = src.Replace( " ", "" ).Trim().ToLower();
             var units = Enum.GetValues<SpeedUnits>().Select(t=>(k:t,suffix: t.GetEnumAttr( false, ( v, a ) => a.Suffix, v => new SuffixAttribute( "" ) ).ToLower())).Where(t=> src.EndsWith(t.suffix));

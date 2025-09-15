@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -13,30 +14,33 @@ namespace YZ {
     }
 
     [JsonConverter( typeof( GeoCoordJsonConverter ) )]
-    public struct GeoCoord {
+    public readonly struct GeoCoord( double lat, double lon ) {
         public GeoCoord( (double lat, double lon) src ) : this( src.lat, src.lon ) { }
 
-        public GeoCoord( double lat, double lon ) {
-            Lat = lat;
-            Lon = lon;
-        }
-
-        public readonly double Lat, Lon;
+        public readonly double Lat = lat, Lon = lon;
 
         [JsonIgnore]
         public bool IsValid => !double.IsNaN( Lat ) && !double.IsNaN( Lon ) && !double.IsInfinity( Lat ) && !double.IsInfinity( Lon );
         public static bool operator ==( GeoCoord a, GeoCoord b ) => ( a - b ).Distance < 0.1;
         public static bool operator !=( GeoCoord a, GeoCoord b ) => ( a - b ).Distance >= 0.1;
+        static string v2s( double v ) => v.ToString( "#00.0000###", CultureInfo.InvariantCulture );
 
-        public static implicit operator string( GeoCoord a ) => $"{a.Lat:0.0000###}, {a.Lon:0.0000###}";
+        public static implicit operator string( GeoCoord a ) => $"{v2s( a.Lat )}, {v2s( a.Lon )}";
 
         public static implicit operator GeoCoord( string a ) => Parse( a );
+        public static implicit operator GeoCoord( (double lat, double lon) src ) => new( src );
         public GeoCoord Constraint( GeoCoord? min = null, GeoCoord? max = null ) => new( Lat.Constraint( min?.Lat, max?.Lat ), Lon.Constraint( min?.Lon, max?.Lon ) );
 
+        public static double Parse( string v, params string[] negSymbols ) {
+            var neg = negSymbols.Any(  v.Contains  ) ;
+            var r = v.AsDouble();
+            return neg? -r : r;
+        }
         public static GeoCoord Parse( string latNon ) {
-            var t = latNon?.Split(',').Take(2).Select(t => t.Trim().AsDouble()) ?? Array.Empty<double>();
+            var t = latNon?.Split(',').Take(2).Select(t => t.Trim()) ?? [];
             if ( t.Count() < 2 ) return new( 0.0, 0.0 );
-            return new( t.First(), t.Last() );
+
+            return new( Parse( t.First(), "S", "s" ), Parse( t.Last(), "W", "w" ) );
         }
 
         public static GeoCoord operator +( GeoCoord coord, GeoOffset offs ) => Tools.Translate( coord, offs );
@@ -52,14 +56,10 @@ namespace YZ {
             return new( lat, lon );
         }
 
-        public override string ToString() => $"{Lat:0.0000###}, {Lon:0.0000###}";
+        public override readonly string ToString() => $"{v2s( Lat )}, {v2s( Lon )}";
 
-        public override bool Equals( object that ) => that is GeoCoord a && a == this;
-        public override int GetHashCode() {
-            unchecked {
-                return Lat.GetHashCode() * 397 ^ Lon.GetHashCode();
-            }
-        }
+        public override readonly bool Equals( object that ) => that is GeoCoord a && a == this;
+        public override readonly int GetHashCode() => HashCode.Combine( Lat, Lon );
     }
 
 }
